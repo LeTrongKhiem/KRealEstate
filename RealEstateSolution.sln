@@ -5,6 +5,17 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KRealEstate.WebApp", "KRealEstate.WebApp\KRealEstate.WebApp.csproj", "{1CEA47F9-9EEF-49E8-9377-E97BA65D7318}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Introduce", "0. Introduce", "{C379EBB5-CBD5-4C33-B3B9-212710D8714D}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Infrastructure", "1. Infrastructure", "{A3CD58DD-B685-4C6F-B9A0-D0BFBD890B6A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Doman", "2. Doman", "{3C1B1984-7C53-4980-9BB5-8FA0FCC4A050}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Host", "3. Host", "{AB075FFC-A3CB-41AD-B57F-4AB3C21CBBB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,6 +29,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1CEA47F9-9EEF-49E8-9377-E97BA65D7318} = {AB075FFC-A3CB-41AD-B57F-4AB3C21CBBB2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C6B600E1-8F50-49CA-A0CE-E36A151F6EEB}
