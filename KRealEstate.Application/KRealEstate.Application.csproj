@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\KRealEstate.Data\KRealEstate.Data.csproj" />
+    <ProjectReference Include="..\KRealEstate.ViewModels\KRealEstate.ViewModels.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="System\" />
+  </ItemGroup>
+
 </Project>
