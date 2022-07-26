@@ -1,21 +1,23 @@
-﻿using KRealEstate.Data.DBContext;
+﻿using KRealEstate.Application.Common;
+using KRealEstate.Data.DBContext;
+using KRealEstate.Data.Models;
 using KRealEstate.ViewModels.Catalog.Product;
 using KRealEstate.ViewModels.Common;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KRealEstate.Application.Catalog.Products
 {
     public class ProductService : IProductService
     {
         private readonly RealEstateDBContext _context;
-        public ProductService(RealEstateDBContext context)
+        private readonly Utilities _utilities;
+        private readonly IStorageService _storageService;
+        private string CHILD_PATH = "image-product";
+        public ProductService(RealEstateDBContext context, IStorageService storageService)
         {
             _context = context;
+            _utilities = new Utilities();
+            _storageService = storageService;
         }
         public async Task<PageResult<ProductViewModel>> GetAllPaging(PagingProduct request)
         {
@@ -40,11 +42,15 @@ namespace KRealEstate.Application.Catalog.Products
                         on add.ProviceCode equals pro.Code
                         into addpro
                         from pro in addpro.DefaultIfEmpty()
+                        join dis in _context.Districts
+                        on add.ProviceCode equals dis.Code
+                        into adddis
+                        from dis in adddis.DefaultIfEmpty()
                         where pi.IsThumbnail == true
-                        select new { p, pmc, c, pi, add, pro };
+                        select new { p, pmc, c, pi, add, pro, dis };
             if (!string.IsNullOrEmpty(request.Keyword))
             {
-                query = query.Where(x => x.c.Slug.Equals(request.Slug) || x.c.ParentId == cateBySlug.Id);
+                query = query.Where(x => x.c.Slug.Equals(request.Slug) || x.c.ParentId == cateBySlug.Id || x.pro.Name.Contains(request.Keyword));
             }
             if (!string.IsNullOrEmpty(request.Keyword))
             {
@@ -95,9 +101,81 @@ namespace KRealEstate.Application.Catalog.Products
             return pageResult;
         }
 
-        public Task<string> PostProduct(PostProductRequest request)
+        public async Task<string> PostProduct(PostProductRequest request)
         {
-            throw new NotImplementedException();
+            Guid g = Guid.NewGuid();
+            List<ProductMapCategory> listCate = new List<ProductMapCategory>();
+            foreach (var cate in request.CategoryId)
+            {
+                listCate.Add(new ProductMapCategory()
+                {
+                    CategoryId = cate.ToString(),
+                    ProductId = g.ToString(),
+                });
+            }
+            Guid gAddress = Guid.NewGuid();
+            var address = new Address()
+            {
+                Id = gAddress.ToString(),
+                ProviceCode = request.ProviceCode,
+                DistrictCode = request.DistrictCode,
+                WardCode = request.WardCode,
+                RegionId = request.RegionId,
+                UnitId = request.UnitId,
+            };
+            Guid gContact = Guid.NewGuid();
+            var contact = new Contact()
+            {
+                Id = gContact.ToString(),
+                Email = request.EmailContact,
+                AddressContact = request.AddressContact,
+                NameContact = request.NameContact,
+                PhoneNumber = request.PhoneContact,
+                ProductId = g.ToString()
+            };
+            var productCreate = new Product()
+            {
+                Id = g.ToString(),
+                Name = request.Name,
+                AddressDisplay = request.AddressDisplay,
+                Area = request.Area,
+                DirectionId = request.DirectionId,
+                Floor = request.Floor,
+                Description = request.Description,
+                Furniture = request.Furniture,
+                ToletRoom = request.ToletRoom,
+                Price = request.Price,
+                Bedroom = request.Bedroom,
+                Project = request.Project,
+                Slug = _utilities.SEOUrl(request.Name),
+                AddressId = address.Id,
+                ProductMapCategories = listCate
+            };
+            foreach (var image in request.ThumbnailImages)
+            {
+                Guid gImages = Guid.NewGuid();
+                var productImage = new ProductImage()
+                {
+                    Id = gImages.ToString(),
+                    ProductId = g.ToString(),
+                    Alt = productCreate.Name,
+                    IsThumbnail = true,
+                };
+                if (request.ThumbnailImages != null)
+                {
+                    productImage.Path = await _storageService.SaveFile(image, CHILD_PATH);
+                }
+                else
+                {
+                    productImage.Path = "no-image";
+                }
+                _context.ProductImages.Add(productImage);
+            }
+            _context.Addresses.Add(address);
+            _context.Contacts.Add(contact);
+            _context.Products.Add(productCreate);
+            await _context.SaveChangesAsync();
+            return productCreate.Id;
         }
     }
 }

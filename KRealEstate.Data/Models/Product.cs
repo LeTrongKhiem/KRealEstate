@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace KRealEstate.Data.Models
+﻿namespace KRealEstate.Data.Models
 {
     public partial class Product
     {
@@ -10,6 +7,7 @@ namespace KRealEstate.Data.Models
             Contacts = new HashSet<Contact>();
             PostDetails = new HashSet<PostDetail>();
             ProductImages = new HashSet<ProductImage>();
+            ProductMapCategories = new HashSet<ProductMapCategory>();
         }
 
         public string Id { get; set; } = null!;
@@ -34,5 +32,6 @@ namespace KRealEstate.Data.Models
         public virtual ICollection<Contact> Contacts { get; set; }
         public virtual ICollection<PostDetail> PostDetails { get; set; }
         public virtual ICollection<ProductImage> ProductImages { get; set; }
+        public virtual ICollection<ProductMapCategory> ProductMapCategories { get; set; }
     }
 }
