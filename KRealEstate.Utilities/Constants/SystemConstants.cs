@@ -1,13 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KRealEstate.Utilities.Constants
+﻿namespace KRealEstate.Utilities.Constants
 {
     public class SystemConstants
     {
         public const string MAINCONNECTION = "DefaultConnection";
+        public class BaseUrl
+        {
+            public const string BaseAddress = "BaseAddress";
+            public const string urlApp = "https://localhost:6003";
+        }
+        public class Authentication
+        {
+            public const string RequestHeader = "Bearer";
+        }
     }
 }

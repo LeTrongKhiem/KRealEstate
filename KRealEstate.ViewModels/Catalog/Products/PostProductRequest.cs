@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace KRealEstate.ViewModels.Catalog.Product
 {
@@ -24,14 +20,26 @@ namespace KRealEstate.ViewModels.Catalog.Product
         public string? AddressDisplay { get; set; }
         public string? Furniture { get; set; }
         public string? Slug { get; set; }
-
-
+        //address
+        public string ProviceCode { get; set; }
+        public string DistrictCode { get; set; }
+        public string WardCode { get; set; }
+        public int RegionId { get; set; }
+        public int UnitId { get; set; }
+        //contact info
+        public string NameContact { get; set; }
+        public string PhoneContact { get; set; }
+        public string AddressContact { get; set; }
+        public string EmailContact { get; set; }
+        //images
+        public List<IFormFile> ThumbnailImages { get; set; }
+        //type post
         public int DayLengthPost { get; set; }
         public DateTime? DayPostStart { get; set; }
         public DateTime? DayPostEnd { get; set; }
         public string? PostTypeId { get; set; }
 
-
+        public List<string> CategoryId { get; set; } = new List<string>();
         public string UserId { get; set; } = null!;
         public DateTime DatePost { get; set; }
     }
