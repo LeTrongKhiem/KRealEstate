@@ -8,8 +8,8 @@ namespace KRealEstate.Application.System.Users
     {
         Task<ResultApi<string>> Authenticate(LoginRequest request);
         Task<ResultApi<bool>> CreateUser(UserCreateRequest request);
-        Task<ResultApi<bool>> EditUser(UserEditRequest request);
-        Task<ResultApi<PageResult<UserViewModel>>> GetAllUser();
+        Task<ResultApi<bool>> EditUser(string id, UserEditRequest request);
+        Task<ResultApi<PageResult<UserViewModel>>> GetAllUser(PagingWithKeyword request);
         Task<ResultApi<bool>> DeleteUser(UserDeleteRequest request);
         Task<ResultApi<UserViewModel>> GetById(string id);
         Task<ResultApi<UserViewModel>> GetByUsername(string username);
