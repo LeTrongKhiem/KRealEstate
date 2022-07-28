@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\KRealEstate.Data\KRealEstate.Data.csproj" />
+    <ProjectReference Include="..\KRealEstate.Utilities\KRealEstate.Utilities.csproj" />
     <ProjectReference Include="..\KRealEstate.ViewModels\KRealEstate.ViewModels.csproj" />
   </ItemGroup>
 

@@ -10,13 +10,13 @@ namespace KRealEstate.Application.Catalog.Products
     public class ProductService : IProductService
     {
         private readonly RealEstateDBContext _context;
-        private readonly Utilities _utilities;
+        private readonly SEO _utilities;
         private readonly IStorageService _storageService;
         private string CHILD_PATH = "image-product";
         public ProductService(RealEstateDBContext context, IStorageService storageService)
         {
             _context = context;
-            _utilities = new Utilities();
+            _utilities = new SEO();
             _storageService = storageService;
         }
         public async Task<PageResult<ProductViewModel>> GetAllPaging(PagingProduct request)

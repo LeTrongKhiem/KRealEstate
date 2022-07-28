@@ -5,27 +5,23 @@ using KRealEstate.Data.Models;
 using KRealEstate.ViewModels.Catalog.Categories;
 using KRealEstate.ViewModels.Common;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KRealEstate.Application.Catalog.Categories
 {
     public class CategoryService : ICategoryService
     {
         private readonly RealEstateDBContext _context;
-        private Utilities _utilities;
+        private SEO _utilities;
         public CategoryService(RealEstateDBContext context)
         {
             _context = context;
-            _utilities = new Utilities();
+            _utilities = new SEO();
         }
         public async Task<string> Create(CategoryCreateRequest request)
         {
             Guid g = Guid.NewGuid();
-            var categoryDTO = new CategoryDTO() {
+            var categoryDTO = new CategoryDTO()
+            {
                 Id = g.ToString(),
                 NameCategory = request.NameCategory,
                 ParentId = request.ParentId,
@@ -81,15 +77,15 @@ namespace KRealEstate.Application.Catalog.Categories
             var items = await query.Skip((request.PageSize - 1) * request.PageIndex)
                 .Take(request.PageSize)
                 .Select(x => new CategoryViewModel()
-            {
-                Id = x.Id,
-                NameCategory = x.NameCategory,
-                ParentId = x.ParentId,
-                IsShowWeb = x.IsShowWeb,
-                Type = x.Type,
-                SortOrder = x.SortOrder,
-                Slug = x.Slug,
-            }).ToListAsync();
+                {
+                    Id = x.Id,
+                    NameCategory = x.NameCategory,
+                    ParentId = x.ParentId,
+                    IsShowWeb = x.IsShowWeb,
+                    Type = x.Type,
+                    SortOrder = x.SortOrder,
+                    Slug = x.Slug,
+                }).ToListAsync();
             var pageResult = new PageResult<CategoryViewModel>()
             {
                 Items = items,
