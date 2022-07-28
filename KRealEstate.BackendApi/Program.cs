@@ -3,13 +3,15 @@ using KRealEstate.Application.Catalog.Categories;
 using KRealEstate.Application.Catalog.Products;
 using KRealEstate.Application.Common;
 using KRealEstate.Application.System.Email;
+using KRealEstate.Application.System.Users;
 using KRealEstate.Data.DBContext;
+using KRealEstate.Data.Models;
 using KRealEstate.Utilities.Constants;
 using KRealEstate.ViewModels.System.Email;
 using KRealEstate.ViewModels.System.Users;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,10 +79,10 @@ Microsoft.Extensions.Configuration.ConfigurationManager configuration = builder.
 //                      }
 //                    });
 //});
-builder.Services.AddCors(c => c.AddPolicy("AlloOrigin", options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
-builder.Services.AddControllersWithViews()
-    .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
-    .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
+//builder.Services.AddCors(c => c.AddPolicy("AlloOrigin", options => options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+//builder.Services.AddControllersWithViews()
+//    .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
+//    .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 builder.Services.AddControllers().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginValidation>());
 builder.Services.AddControllers();
 IWebHostEnvironment env = builder.Environment;
@@ -92,13 +94,19 @@ builder.Services.AddDbContext<RealEstateDBContext>(options => options.UseSqlServ
 var emailConfig = configuration.GetSection("MailSettings").Get<MailSetting>();
 builder.Services.AddSingleton(emailConfig);
 builder.Services.AddScoped<IEmailSender, MailService>();
+builder.Services.AddIdentity<AppUser, AppRole>().AddEntityFrameworkStores<RealEstateDBContext>()
+            .AddDefaultTokenProviders();
 
-//builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
+builder.Services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
+builder.Services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
+
+builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IStorageService, FileStorageService>();
 
-//builder.Services.AddTransient<UserManager<AspNetUser>, UserManager<AspNetUser>>();
 builder.Services.AddMvc(options =>
 {
     options.SuppressAsyncSuffixInActionNames = false;
@@ -113,7 +121,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAuthentication();

@@ -20,6 +20,6 @@ namespace KRealEstate.ViewModels.System.Users
         public DateTime Dob { get; set; }
 
         public string AddressId { get; set; }
-        public IList<string> Roles { get; set; }
+        public IList<string> Roles { get; set; } = new List<string>();
     }
 }
