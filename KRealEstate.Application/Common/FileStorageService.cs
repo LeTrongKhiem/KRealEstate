@@ -13,9 +13,16 @@ namespace KRealEstate.Application.Common
         {
             _userContentFolder = Path.Combine(webHostEnvironment.WebRootPath, USER_CONTENT_FOLDER_NAME);
         }
-        public Task DeleteFileAsync(string fileName)
+        public async Task DeleteFileAsync(string fileName)
         {
-            throw new NotImplementedException();
+            var filePath = Path.Combine(_userContentFolder, fileName);
+            if (File.Exists(filePath))
+            {
+                await Task.Run(() =>
+                {
+                    File.Delete(filePath);
+                });
+            }
         }
 
         public string getFileUrl(string fileName, string childPath)
@@ -29,7 +36,7 @@ namespace KRealEstate.Application.Common
 
         public async Task<string> SaveFile(IFormFile file, string childPath)
         {
-            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim();
+            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
             await SaveFileAsync(file.OpenReadStream(), fileName, childPath);
             return "/" + USER_CONTENT_FOLDER_NAME + "/" + childPath + "/" + fileName;

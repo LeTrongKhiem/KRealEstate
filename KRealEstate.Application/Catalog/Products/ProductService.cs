@@ -2,6 +2,7 @@
 using KRealEstate.Data.DBContext;
 using KRealEstate.Data.Models;
 using KRealEstate.ViewModels.Catalog.Product;
+using KRealEstate.ViewModels.Catalog.Products;
 using KRealEstate.ViewModels.Common;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,6 +20,42 @@ namespace KRealEstate.Application.Catalog.Products
             _utilities = new SEO();
             _storageService = storageService;
         }
+
+        public async Task<bool> DeletePostProduct(DeletePostProductRequest request)
+        {
+            if (request.Id == null)
+            {
+                return false;
+            }
+            var product = await _context.Products.FindAsync(request.Id);
+            var productMapCate = await _context.ProductMapCategories.Where(x => x.ProductId == request.Id).ToListAsync();
+            var contactInfo = await _context.Contacts.FirstOrDefaultAsync(x => x.ProductId == request.Id);
+            var postDetail = await _context.PostDetails.FirstOrDefaultAsync(x => x.ProductId == request.Id);
+            var post = await _context.Posts.FirstOrDefaultAsync(x => x.PostId == postDetail.Id);
+            var imageProducts = await _context.ProductImages.Where(x => x.ProductId == request.Id).ToListAsync();
+            foreach (var imageProduct in imageProducts)
+            {
+                var pathImage = "wwwroot" + imageProduct.Path;
+                if (File.Exists(pathImage))
+                {
+                    await Task.Run(() =>
+                    {
+                        File.Delete(pathImage);
+                    });
+                }
+                _context.ProductImages.Remove(imageProduct);
+            }
+            foreach (var productImg in productMapCate)
+            {
+                _context.ProductMapCategories.Remove(productImg);
+            }
+            _context.Products.Remove(product);
+            _context.Contacts.Remove(contactInfo);
+            _context.PostDetails.Remove(postDetail);
+            _context.Posts.Remove(post);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
         public async Task<PageResult<ProductViewModel>> GetAllPaging(PagingProduct request)
         {
             var cateBySlug = await _context.Categories.FirstOrDefaultAsync(x => x.Slug.Equals(request.Slug));
@@ -47,7 +84,7 @@ namespace KRealEstate.Application.Catalog.Products
                         into adddis
                         from dis in adddis.DefaultIfEmpty()
                         where pi.IsThumbnail == true
-                        select new { p, pmc, c, pi, add, pro, dis };
+                        select new { p, c, pi, add, pro, dis };
             if (!string.IsNullOrEmpty(request.Keyword))
             {
                 query = query.Where(x => x.c.Slug.Equals(request.Slug) || x.c.ParentId == cateBySlug.Id || x.pro.Name.Contains(request.Keyword));
@@ -56,11 +93,11 @@ namespace KRealEstate.Application.Catalog.Products
             {
                 query = query.Where(x => x.p.Name.Contains(request.Keyword) || x.pro.Name.Contains(request.Keyword));
             }
-            if (request.PriceTo != 0 && request.PriceFrom != 0)
+            if (request.PriceTo != null && request.PriceFrom != null)
             {
                 query = query.Where(x => (x.p.Price >= request.PriceFrom && x.p.Price <= request.PriceTo));
             }
-            if (request.AreaTo != 0 && request.AreaFrom != 0)
+            if (request.AreaTo != null && request.AreaFrom != null)
             {
                 query = query.Where(x => (x.p.Area >= request.AreaFrom && x.p.Area <= request.AreaTo));
             }
@@ -68,7 +105,7 @@ namespace KRealEstate.Application.Catalog.Products
             {
                 query = query.Where(x => x.p.DirectionId.Equals(request.DirectionId));
             }
-            if (request.BedRoom != 0)
+            if (request.BedRoom != null)
             {
                 query = query.Where(x => x.p.Bedroom == request.BedRoom);
             }
@@ -80,7 +117,7 @@ namespace KRealEstate.Application.Catalog.Products
             //    }
             //}
             var countRecord = await _context.Products.CountAsync();
-            var items = await query.Skip((request.PageSize - 1) * request.PageIndex)
+            var items = await query.Skip((request.PageIndex - 1) * request.PageSize)
                                 .Take(request.PageSize)
                                 .Select(x => new ProductViewModel()
                                 {
@@ -113,26 +150,31 @@ namespace KRealEstate.Application.Catalog.Products
                     ProductId = g.ToString(),
                 });
             }
+            Address address = null;
             Guid gAddress = Guid.NewGuid();
-            var address = new Address()
+            if (_context.Addresses.Any(x => x.UnitId == request.UnitId && x.ProviceCode.Equals(request.ProviceCode)
+                                && x.DistrictCode.Equals(request.DistrictCode) && x.WardCode.Equals(request.WardCode)
+                                && x.RegionId == request.RegionId))
             {
-                Id = gAddress.ToString(),
-                ProviceCode = request.ProviceCode,
-                DistrictCode = request.DistrictCode,
-                WardCode = request.WardCode,
-                RegionId = request.RegionId,
-                UnitId = request.UnitId,
-            };
-            Guid gContact = Guid.NewGuid();
-            var contact = new Contact()
+                address = await (from add in _context.Addresses
+                                 where add.UnitId == request.UnitId && add.RegionId == request.RegionId
+                                 && add.ProviceCode.Equals(request.ProviceCode) && add.DistrictCode.Equals(request.DistrictCode)
+                                 && add.WardCode.Equals(request.WardCode)
+                                 select add).FirstOrDefaultAsync();
+            }
+            else
             {
-                Id = gContact.ToString(),
-                Email = request.EmailContact,
-                AddressContact = request.AddressContact,
-                NameContact = request.NameContact,
-                PhoneNumber = request.PhoneContact,
-                ProductId = g.ToString()
-            };
+                address = new Address()
+                {
+                    Id = gAddress.ToString(),
+                    DistrictCode = request.DistrictCode,
+                    ProviceCode = request.ProviceCode,
+                    WardCode = request.WardCode,
+                    RegionId = request.RegionId,
+                    UnitId = request.UnitId,
+                };
+                _context.Addresses.Add(address);
+            }
             var productCreate = new Product()
             {
                 Id = g.ToString(),
@@ -157,7 +199,7 @@ namespace KRealEstate.Application.Catalog.Products
                 var productImage = new ProductImage()
                 {
                     Id = gImages.ToString(),
-                    ProductId = g.ToString(),
+                    ProductId = productCreate.Id,
                     Alt = productCreate.Name,
                     IsThumbnail = true,
                 };
@@ -171,9 +213,39 @@ namespace KRealEstate.Application.Catalog.Products
                 }
                 _context.ProductImages.Add(productImage);
             }
-            _context.Addresses.Add(address);
-            _context.Contacts.Add(contact);
+            Guid gContact = Guid.NewGuid();
+            var contact = new Contact()
+            {
+                Id = gContact.ToString(),
+                Email = request.EmailContact,
+                AddressContact = request.AddressContact,
+                NameContact = request.NameContact,
+                PhoneNumber = request.PhoneContact,
+                ProductId = productCreate.Id
+            };
+            Guid gPostDetails = Guid.NewGuid();
+            var postDetail = new PostDetail()
+            {
+                Id = gPostDetails.ToString(),
+                ProductId = productCreate.Id,
+                DayLengthPost = request.DayLengthPost,
+                DayPostStart = request.DayPostStart,
+                DayPostEnd = request.DayPostEnd,
+                PostTypeId = request.PostTypeId,
+            };
+            Guid gPost = Guid.NewGuid();
+            var post = new Post()
+            {
+                Id = gPost.ToString(),
+                PostId = postDetail.Id,
+                UserId = request.UserId,
+                DatePost = request.DatePost,
+                Status = false
+            };
             _context.Products.Add(productCreate);
+            _context.PostDetails.Add(postDetail);
+            _context.Posts.Add(post);
+            _context.Contacts.Add(contact);
             await _context.SaveChangesAsync();
             return productCreate.Id;
         }
