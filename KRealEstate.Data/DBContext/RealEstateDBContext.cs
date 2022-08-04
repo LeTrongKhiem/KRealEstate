@@ -155,111 +155,6 @@ namespace KRealEstate.Data.DBContext
                     .HasColumnName("short_name_en");
             });
 
-            //modelBuilder.Entity<AppRole>(entity =>
-            //{
-            //    entity.HasIndex(e => e.NormalizedName, "RoleNameIndex")
-            //        .IsUnique()
-            //        .HasFilter("([NormalizedName] IS NOT NULL)");
-
-            //    entity.Property(e => e.Id).ValueGeneratedNever();
-
-            //    entity.Property(e => e.Description).HasMaxLength(200);
-
-            //    entity.Property(e => e.Name).HasMaxLength(256);
-
-            //    entity.Property(e => e.NormalizedName).HasMaxLength(256);
-            //});
-
-            //modelBuilder.Entity<AspNetRoleClaim>(entity =>
-            //{
-            //    entity.HasIndex(e => e.RoleId, "IX_AspNetRoleClaims_RoleId");
-
-            //    entity.HasOne(d => d.Role)
-            //        .WithMany(p => p.AspNetRoleClaims)
-            //        .HasForeignKey(d => d.RoleId);
-            //});
-
-            //modelBuilder.Entity<AppUser>(entity =>
-            //{
-            //    entity.HasIndex(e => e.NormalizedEmail, "EmailIndex");
-
-            //    entity.HasIndex(e => e.NormalizedUserName, "UserNameIndex")
-            //        .IsUnique()
-            //        .HasFilter("([NormalizedUserName] IS NOT NULL)");
-
-            //    entity.Property(e => e.Id).ValueGeneratedNever();
-
-            //    entity.Property(e => e.AddressId)
-            //        .HasMaxLength(255)
-            //        .IsUnicode(false);
-
-            //    entity.Property(e => e.Dob).HasColumnName("DOB");
-
-            //    entity.Property(e => e.Email).HasMaxLength(256);
-
-            //    entity.Property(e => e.FirstName).HasMaxLength(200);
-
-            //    entity.Property(e => e.LastName).HasMaxLength(200);
-
-            //    entity.Property(e => e.NormalizedEmail).HasMaxLength(256);
-
-            //    entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
-
-            //    entity.Property(e => e.TaxId).HasMaxLength(200);
-
-            //    entity.Property(e => e.UserName).HasMaxLength(256);
-
-            //    entity.HasOne(d => d.Address)
-            //        .WithMany(p => p.AspNetUsers)
-            //        .HasForeignKey(d => d.AddressId)
-            //        .OnDelete(DeleteBehavior.ClientSetNull)
-            //        .HasConstraintName("fk_add_user");
-
-            //    entity.HasMany(d => d.Roles)
-            //        .WithMany(p => p.Users)
-            //        .UsingEntity<Dictionary<string, object>>(
-            //            "AspNetUserRole",
-            //            l => l.HasOne<AppRole>().WithMany().HasForeignKey("RoleId"),
-            //            r => r.HasOne<AppUser>().WithMany().HasForeignKey("UserId"),
-            //            j =>
-            //            {
-            //                j.HasKey("UserId", "RoleId");
-
-            //                j.ToTable("AspNetUserRoles");
-
-            //                j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
-            //            });
-            //});
-
-            //modelBuilder.Entity<AspNetUserClaim>(entity =>
-            //{
-            //    entity.HasIndex(e => e.UserId, "IX_AspNetUserClaims_UserId");
-
-            //    entity.HasOne(d => d.User)
-            //        .WithMany(p => p.AspNetUserClaims)
-            //        .HasForeignKey(d => d.UserId);
-            //});
-
-            //modelBuilder.Entity<AspNetUserLogin>(entity =>
-            //{
-            //    entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
-
-            //    entity.HasIndex(e => e.UserId, "IX_AspNetUserLogins_UserId");
-
-            //    entity.HasOne(d => d.User)
-            //        .WithMany(p => p.AspNetUserLogins)
-            //        .HasForeignKey(d => d.UserId);
-            //});
-
-            //modelBuilder.Entity<AspNetUserToken>(entity =>
-            //{
-            //    entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
-
-            //    entity.HasOne(d => d.User)
-            //        .WithMany(p => p.AspNetUserTokens)
-            //        .HasForeignKey(d => d.UserId);
-            //});
-
             modelBuilder.Entity<Banner>(entity =>
             {
                 entity.ToTable("Banner");
@@ -542,14 +437,14 @@ namespace KRealEstate.Data.DBContext
             modelBuilder.Entity<ProductMapCategory>(entity =>
             {
                 entity.HasKey(e => new { e.ProductId, e.CategoryId })
-                    .HasName("PK__ProductM__159C556D63F46B0A");
+                    .HasName("PK__ProductM__159C556DFE481EEF");
                 //entity.HasNoKey();
 
                 entity.ToTable("ProductMapCategory");
 
                 entity.HasIndex(e => e.CategoryId, "IX_ProductMapCategory_CategoryId");
 
-                entity.HasIndex(e => e.ProductId, "IX_ProductMapCategory_ProductId");
+                //entity.HasIndex(e => e.ProductId, "IX_ProductMapCategory_ProductId");
 
                 entity.Property(e => e.CategoryId)
                     .HasMaxLength(255)
@@ -560,13 +455,13 @@ namespace KRealEstate.Data.DBContext
                     .IsUnicode(false);
 
                 entity.HasOne(d => d.Category)
-                    .WithMany()
+                    .WithMany(p => p.ProductMapCategories)
                     .HasForeignKey(d => d.CategoryId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_cate_prodmapcate");
 
                 entity.HasOne(d => d.Product)
-                    .WithMany()
+                    .WithMany(p => p.ProductMapCategories)
                     .HasForeignKey(d => d.ProductId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("fk_prod_prodmapcate");

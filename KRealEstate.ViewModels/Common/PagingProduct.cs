@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace KRealEstate.ViewModels.Common
+﻿namespace KRealEstate.ViewModels.Common
 {
     public class PagingProduct
     {
@@ -14,13 +8,13 @@ namespace KRealEstate.ViewModels.Common
         public string? CategoryId { get; set; }
         public string? Slug { get; set; }
         public string? PriceOrder { get; set; }
-        public int PriceTo { get; set; }
-        public int PriceFrom { get; set; }
-        public int AreaTo { get; set; }
-        public int AreaFrom { get; set; }
-        public string DirectionId { get; set; }
-        public int BedRoom { get; set; }
-        public bool HaveImages { get; set; }
-        public bool HaveVideo { get; set; }
+        public int? PriceTo { get; set; }
+        public int? PriceFrom { get; set; }
+        public int? AreaTo { get; set; }
+        public int? AreaFrom { get; set; }
+        public string? DirectionId { get; set; }
+        public int? BedRoom { get; set; }
+        public bool? HaveImages { get; set; }
+        public bool? HaveVideo { get; set; }
     }
 }
