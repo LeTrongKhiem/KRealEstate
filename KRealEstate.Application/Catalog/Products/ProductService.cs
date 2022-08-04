@@ -21,6 +21,17 @@ namespace KRealEstate.Application.Catalog.Products
             _storageService = storageService;
         }
 
+        public async Task<int> AddViewCount(string id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return 0;
+            }
+            product.ViewCount += 1;
+            return await _context.SaveChangesAsync();
+        }
+
         public async Task<bool> DeletePostProduct(DeletePostProductRequest request)
         {
             if (request.Id == null)
@@ -191,7 +202,9 @@ namespace KRealEstate.Application.Catalog.Products
                 Project = request.Project,
                 Slug = _utilities.SEOUrl(request.Name),
                 AddressId = address.Id,
-                ProductMapCategories = listCate
+                IsShowWeb = request.IsShowWeb,
+                ProductMapCategories = listCate,
+                ViewCount = 0
             };
             foreach (var image in request.ThumbnailImages)
             {
