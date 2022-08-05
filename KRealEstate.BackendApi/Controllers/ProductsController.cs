@@ -65,5 +65,20 @@ namespace KRealEstate.BackendApi.Controllers
             }
             return BadRequest(result);
         }
+        [HttpGet("id")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetById(string id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var result = await _productService.GetById(id);
+            if (result == null)
+            {
+                return BadRequest("Not found");
+            }
+            return Ok(result);
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace KRealEstate.Application.Catalog.Products
 {
     public class ProductService : IProductService
     {
+        #region Constructor
         private readonly RealEstateDBContext _context;
         private readonly SEO _utilities;
         private readonly IStorageService _storageService;
@@ -20,7 +21,8 @@ namespace KRealEstate.Application.Catalog.Products
             _utilities = new SEO();
             _storageService = storageService;
         }
-
+        #endregion
+        #region ViewCount
         public async Task<int> AddViewCount(string id)
         {
             var product = await _context.Products.FindAsync(id);
@@ -31,7 +33,8 @@ namespace KRealEstate.Application.Catalog.Products
             product.ViewCount += 1;
             return await _context.SaveChangesAsync();
         }
-
+        #endregion
+        #region DeletePost
         public async Task<bool> DeletePostProduct(DeletePostProductRequest request)
         {
             if (request.Id == null)
@@ -66,7 +69,8 @@ namespace KRealEstate.Application.Catalog.Products
             _context.Posts.Remove(post);
             return await _context.SaveChangesAsync() > 0;
         }
-
+        #endregion
+        #region ShowProduct
         public async Task<PageResult<ProductViewModel>> GetAllPaging(PagingProduct request)
         {
             var cateBySlug = await _context.Categories.FirstOrDefaultAsync(x => x.Slug.Equals(request.Slug));
@@ -148,7 +152,133 @@ namespace KRealEstate.Application.Catalog.Products
             };
             return pageResult;
         }
+        #endregion
+        #region GetById
+        public async Task<ProductDetailViewModel> GetById(string id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            var productImages = await (from p in _context.Products
+                                       join pi in _context.ProductImages
+                                       on p.Id equals pi.ProductId
+                                       where pi.ProductId == id
+                                       select pi.Path).ToListAsync();
+            var categories = await (from c in _context.Categories
+                                    join pmc in _context.ProductMapCategories
+                                    on c.Id equals pmc.CategoryId
+                                    where pmc.ProductId == id
+                                    select c.NameCategory).ToListAsync();
+            var postDetail = await _context.PostDetails.FirstOrDefaultAsync(x => x.ProductId == id);
+            var query = (from pro in _context.Products
+                         join postdetail in _context.PostDetails
+                         on pro.Id equals postdetail.ProductId into ppdt
+                         from postdetail in ppdt.DefaultIfEmpty()
+                         join post in _context.Posts on postdetail.Id equals post.PostId into pdtp
+                         from post in pdtp.DefaultIfEmpty()
+                         join posttype in _context.PostTypes on postdetail.PostTypeId equals posttype.Id
+                         into ptpdt
+                         from posttype in ptpdt.DefaultIfEmpty()
+                         join address in _context.Addresses on pro.AddressId equals address.Id
+                         into proa
+                         from address in proa.DefaultIfEmpty()
+                         join di in _context.Directions on pro.DirectionId equals di.Id
+                         into prodi
+                         from di in prodi.DefaultIfEmpty()
 
+                         where pro.Id == id
+                         select new { pro, postdetail, posttype, post, address, di });
+            if (product == null)
+            {
+                return null;
+            }
+            var result = await query.Select(x => new ProductDetailViewModel()
+            {
+                Id = x.pro.Id,
+                Name = x.pro.Name,
+                AddressId = x.pro.AddressId,
+                Price = x.pro.Price,
+                Area = x.pro.Area,
+                Bedroom = x.pro.Bedroom,
+                Description = x.pro.Description,
+                ToletRoom = x.pro.ToletRoom,
+                ViewCount = x.pro.ViewCount,
+                DirectionId = x.pro.DirectionId,
+                IsShowWeb = x.pro.IsShowWeb,
+                Floor = x.pro.Floor,
+                Project = x.pro.Project,
+                AddressDisplay = x.pro.AddressDisplay,
+                Furniture = x.pro.Furniture,
+                Slug = x.pro.Slug,
+                ListCategory = categories,
+                ListImages = productImages,
+                AddressVm = new ViewModels.Catalog.Addresss.AddressViewModel()
+                {
+                    Id = x.address.Id,
+                    DistrictCode = x.address.DistrictCode,
+                    ProviceCode = x.address.ProviceCode,
+                    RegionId = x.address.RegionId,
+                    UnitId = x.address.UnitId,
+                    WardCode = x.address.WardCode
+                },
+                DirectionVm = new ViewModels.Catalog.Addresss.DirectionViewModel()
+                {
+                    Id = x.di.Id,
+                    Name = x.di.Name
+                },
+                PostDetailVm = new ViewModels.Catalog.Posts.PostDetailViewModel()
+                {
+                    Id = x.postdetail.Id,
+                    ProductId = x.postdetail.ProductId,
+                    DayLengthPost = x.postdetail.DayLengthPost,
+                    DayPostEnd = x.postdetail.DayPostEnd,
+                    DayPostStart = x.postdetail.DayPostStart,
+                    PostTypeId = x.postdetail.PostTypeId,
+
+                },
+                PostTypeVm = new ViewModels.Catalog.Posts.PostTypeViewModel()
+                {
+                    Id = x.posttype.Id,
+                    NamePostType = x.posttype.NamePostType
+                },
+                PostVm = new ViewModels.Catalog.Posts.PostViewModel()
+                {
+                    Id = x.post.Id,
+                    DatePost = x.post.DatePost,
+                    PostId = x.post.PostId,
+                    Status = x.post.Status,
+                    UserId = x.post.UserId
+                }
+            }).FirstOrDefaultAsync();
+            //var productDetail = new ProductDetailViewModel()
+            //{
+            //    Id = product.Id,
+            //    Name = product.Name,
+            //    AddressId = product.AddressId,
+            //    Price = product.Price,
+            //    Area = product.Area,
+            //    Bedroom = product.Bedroom,
+            //    Description = product.Description,
+            //    ToletRoom = product.ToletRoom,
+            //    ViewCount = product.ViewCount,
+            //    DirectionId = product.DirectionId,
+            //    IsShowWeb = product.IsShowWeb,
+            //    Floor = product.Floor,
+            //    Project = product.Project,
+            //    AddressDisplay = product.AddressDisplay,
+            //    Furniture = product.Furniture,
+            //    Slug = product.Slug,
+            //    ListCategory = categories,
+
+            //};
+            return result;
+        }
+        #endregion
+        #region GetBySlug
+        public Task<ProductDetailViewModel> GetBySlug(string slug)
+        {
+            throw new NotImplementedException();
+        }
+        #endregion
+        #region PostProduct
         public async Task<string> PostProduct(PostProductRequest request)
         {
             Guid g = Guid.NewGuid();
@@ -262,5 +392,7 @@ namespace KRealEstate.Application.Catalog.Products
             await _context.SaveChangesAsync();
             return productCreate.Id;
         }
+        #endregion
     }
 }
+
