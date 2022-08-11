@@ -1,6 +1,7 @@
 ﻿using KRealEstate.Application.Common;
 using KRealEstate.Data.DBContext;
 using KRealEstate.Data.Models;
+using KRealEstate.ViewModels.Catalog.Assigns;
 using KRealEstate.ViewModels.Catalog.Product;
 using KRealEstate.ViewModels.Catalog.Products;
 using KRealEstate.ViewModels.Common;
@@ -33,6 +34,7 @@ namespace KRealEstate.Application.Catalog.Products
             product.ViewCount += 1;
             return await _context.SaveChangesAsync();
         }
+
         #endregion
         #region DeletePost
         public async Task<bool> DeletePostProduct(DeletePostProductRequest request)
@@ -248,34 +250,105 @@ namespace KRealEstate.Application.Catalog.Products
                     UserId = x.post.UserId
                 }
             }).FirstOrDefaultAsync();
-            //var productDetail = new ProductDetailViewModel()
-            //{
-            //    Id = product.Id,
-            //    Name = product.Name,
-            //    AddressId = product.AddressId,
-            //    Price = product.Price,
-            //    Area = product.Area,
-            //    Bedroom = product.Bedroom,
-            //    Description = product.Description,
-            //    ToletRoom = product.ToletRoom,
-            //    ViewCount = product.ViewCount,
-            //    DirectionId = product.DirectionId,
-            //    IsShowWeb = product.IsShowWeb,
-            //    Floor = product.Floor,
-            //    Project = product.Project,
-            //    AddressDisplay = product.AddressDisplay,
-            //    Furniture = product.Furniture,
-            //    Slug = product.Slug,
-            //    ListCategory = categories,
-
-            //};
             return result;
         }
         #endregion
         #region GetBySlug
-        public Task<ProductDetailViewModel> GetBySlug(string slug)
+        public async Task<ProductDetailViewModel> GetBySlug(string slug)
         {
-            throw new NotImplementedException();
+            var product = await _context.Products.FirstOrDefaultAsync(x => x.Slug == slug);
+            var productImages = await (from p in _context.Products
+                                       join pi in _context.ProductImages
+                                       on p.Id equals pi.ProductId
+                                       where pi.ProductId == product.Id
+                                       select pi.Path).ToListAsync();
+            var categories = await (from c in _context.Categories
+                                    join pmc in _context.ProductMapCategories
+                                    on c.Id equals pmc.CategoryId
+                                    where pmc.ProductId == product.Id
+                                    select c.NameCategory).ToListAsync();
+            var postDetail = await _context.PostDetails.FirstOrDefaultAsync(x => x.ProductId == product.Id);
+            var query = (from pro in _context.Products
+                         join postdetail in _context.PostDetails
+                         on pro.Id equals postdetail.ProductId into ppdt
+                         from postdetail in ppdt.DefaultIfEmpty()
+                         join post in _context.Posts on postdetail.Id equals post.PostId into pdtp
+                         from post in pdtp.DefaultIfEmpty()
+                         join posttype in _context.PostTypes on postdetail.PostTypeId equals posttype.Id
+                         into ptpdt
+                         from posttype in ptpdt.DefaultIfEmpty()
+                         join address in _context.Addresses on pro.AddressId equals address.Id
+                         into proa
+                         from address in proa.DefaultIfEmpty()
+                         join di in _context.Directions on pro.DirectionId equals di.Id
+                         into prodi
+                         from di in prodi.DefaultIfEmpty()
+
+                         where pro.Id == product.Id
+                         select new { pro, postdetail, posttype, post, address, di });
+            if (product == null)
+            {
+                return null;
+            }
+            var result = await query.Select(x => new ProductDetailViewModel()
+            {
+                Id = x.pro.Id,
+                Name = x.pro.Name,
+                AddressId = x.pro.AddressId,
+                Price = x.pro.Price,
+                Area = x.pro.Area,
+                Bedroom = x.pro.Bedroom,
+                Description = x.pro.Description,
+                ToletRoom = x.pro.ToletRoom,
+                ViewCount = x.pro.ViewCount,
+                DirectionId = x.pro.DirectionId,
+                IsShowWeb = x.pro.IsShowWeb,
+                Floor = x.pro.Floor,
+                Project = x.pro.Project,
+                AddressDisplay = x.pro.AddressDisplay,
+                Furniture = x.pro.Furniture,
+                Slug = x.pro.Slug,
+                ListCategory = categories,
+                ListImages = productImages,
+                AddressVm = new ViewModels.Catalog.Addresss.AddressViewModel()
+                {
+                    Id = x.address.Id,
+                    DistrictCode = x.address.DistrictCode,
+                    ProviceCode = x.address.ProviceCode,
+                    RegionId = x.address.RegionId,
+                    UnitId = x.address.UnitId,
+                    WardCode = x.address.WardCode
+                },
+                DirectionVm = new ViewModels.Catalog.Addresss.DirectionViewModel()
+                {
+                    Id = x.di.Id,
+                    Name = x.di.Name
+                },
+                PostDetailVm = new ViewModels.Catalog.Posts.PostDetailViewModel()
+                {
+                    Id = x.postdetail.Id,
+                    ProductId = x.postdetail.ProductId,
+                    DayLengthPost = x.postdetail.DayLengthPost,
+                    DayPostEnd = x.postdetail.DayPostEnd,
+                    DayPostStart = x.postdetail.DayPostStart,
+                    PostTypeId = x.postdetail.PostTypeId,
+
+                },
+                PostTypeVm = new ViewModels.Catalog.Posts.PostTypeViewModel()
+                {
+                    Id = x.posttype.Id,
+                    NamePostType = x.posttype.NamePostType
+                },
+                PostVm = new ViewModels.Catalog.Posts.PostViewModel()
+                {
+                    Id = x.post.Id,
+                    DatePost = x.post.DatePost,
+                    PostId = x.post.PostId,
+                    Status = x.post.Status,
+                    UserId = x.post.UserId
+                }
+            }).FirstOrDefaultAsync();
+            return result;
         }
         #endregion
         #region PostProduct
@@ -392,7 +465,94 @@ namespace KRealEstate.Application.Catalog.Products
             await _context.SaveChangesAsync();
             return productCreate.Id;
         }
+
         #endregion
+        #region UpdateProduct
+        public async Task<int> UpdateProduct(string id, ProductDetailViewModel request)
+        {
+            var product = await _context.Products.FindAsync(id);
+            var postDetail = await _context.PostDetails.FirstOrDefaultAsync(x => x.ProductId == id);
+            var post = await _context.Posts.FirstOrDefaultAsync(x => x.PostId == postDetail.Id);
+            var images = await _context.ProductImages.FirstOrDefaultAsync(x => x.ProductId == id);
+            if (product == null)
+            {
+                return 0;
+            }
+            product.Name = request.Name != null ? request.Name : product.Name;
+            product.Price = request.Price != null ? request.Price : product.Price;
+            product.Description = request.Description != null ? request.Description : product.Description;
+            product.Area = request.Area != null ? request.Area : product.Area;
+            product.Bedroom = request.Bedroom != null ? request.Bedroom : product.Bedroom;
+            product.ToletRoom = request.ToletRoom != null ? request.ToletRoom : product.ToletRoom;
+            product.IsShowWeb = request.IsShowWeb != null ? request.IsShowWeb : product.IsShowWeb;
+            product.Floor = request.Floor != null ? request.Floor : product.Floor;
+            product.Project = request.Project != null ? request.Project : product.Project;
+            product.AddressDisplay = request.AddressDisplay != null ? request.AddressDisplay : product.AddressDisplay;
+            product.Furniture = request.Furniture != null ? request.Furniture : product.Furniture;
+            postDetail.DayLengthPost = request.PostDetailVm != null ? request.PostDetailVm.DayLengthPost : postDetail.DayLengthPost;
+            postDetail.DayPostStart = request.PostDetailVm.DayPostStart != null ? request.PostDetailVm.DayPostStart : postDetail.DayPostStart;
+            DateTime endDate = Convert.ToDateTime(postDetail.DayPostStart);
+            Int64 addedDays = Convert.ToInt64(postDetail.DayLengthPost);
+            endDate = endDate.AddDays(addedDays);
+            postDetail.DayPostEnd = endDate;
+            postDetail.PostTypeId = request.PostDetailVm.PostTypeId != null ? request.PostDetailVm.PostTypeId : postDetail.PostTypeId;
+            if (request.ThumbnailImages == null)
+            {
+                images.Path = images.Path;
+                return await _context.SaveChangesAsync();
+            }
+            else
+            {
+                string fullPath = "wwwroot" + images.Path;
+                if (File.Exists(fullPath))
+                {
+                    await Task.Run(() =>
+                    {
+                        File.Delete(fullPath);
+                    });
+                }
+                if (request.ThumbnailImages != null)
+                {
+                    var thumbnailImages = await _context.ProductImages.FirstOrDefaultAsync(x => x.ProductId == id);
+                    if (thumbnailImages != null)
+                    {
+                        thumbnailImages.Path = await _storageService.SaveFile(request.ThumbnailImages, CHILD_PATH);
+                        thumbnailImages.Alt = product.Name;
+                        _context.ProductImages.Update(thumbnailImages);
+                    }
+                }
+                return await _context.SaveChangesAsync();
+            }
+        }
+        #endregion
+        #region CategoryAssign
+        public async Task<bool> CategoryAssign(string id, CategoryAssignRequest request)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return false;
+            }
+            foreach (var cate in request.Categories)
+            {
+                var productMapCate = await _context.ProductMapCategories.FirstOrDefaultAsync(x => x.ProductId == id && x.CategoryId == cate.Id);
+                if (productMapCate != null && cate.Selected == false)
+                {
+                    _context.ProductMapCategories.Remove(productMapCate);
+                }
+                else if (productMapCate == null && cate.Selected == true)
+                {
+                    await _context.ProductMapCategories.AddAsync(new ProductMapCategory()
+                    {
+                        CategoryId = cate.Id,
+                        ProductId = id,
+                    });
+                }
+            }
+            return await _context.SaveChangesAsync() > 0;
+        }
+        #endregion
+
     }
 }
 

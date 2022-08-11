@@ -1,4 +1,5 @@
 ﻿using KRealEstate.Application.Catalog.Products;
+using KRealEstate.ViewModels.Catalog.Assigns;
 using KRealEstate.ViewModels.Catalog.Product;
 using KRealEstate.ViewModels.Catalog.Products;
 using KRealEstate.ViewModels.Common;
@@ -77,6 +78,36 @@ namespace KRealEstate.BackendApi.Controllers
             if (result == null)
             {
                 return BadRequest("Not found");
+            }
+            return Ok(result);
+        }
+        [HttpGet("slug")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetBySlug([FromQuery] string slug)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var result = await _productService.GetBySlug(slug);
+            if (result == null)
+            {
+                return BadRequest(slug);
+            }
+            return Ok(result);
+        }
+        [HttpPut("categories/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CategoryAssign(string id, CategoryAssignRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var result = await _productService.CategoryAssign(id, request);
+            if (!result)
+            {
+                return BadRequest(request);
             }
             return Ok(result);
         }

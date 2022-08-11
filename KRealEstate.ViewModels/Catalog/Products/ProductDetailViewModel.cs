@@ -1,5 +1,6 @@
 ﻿using KRealEstate.ViewModels.Catalog.Addresss;
 using KRealEstate.ViewModels.Catalog.Posts;
+using Microsoft.AspNetCore.Http;
 
 namespace KRealEstate.ViewModels.Catalog.Products
 {
@@ -29,5 +30,6 @@ namespace KRealEstate.ViewModels.Catalog.Products
         public PostDetailViewModel PostDetailVm { get; set; }
         public PostViewModel PostVm { get; set; }
         public PostTypeViewModel PostTypeVm { get; set; }
+        public IFormFile ThumbnailImages { get; set; }
     }
 }

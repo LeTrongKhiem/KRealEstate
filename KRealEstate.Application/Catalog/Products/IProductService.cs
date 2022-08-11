@@ -1,4 +1,5 @@
-﻿using KRealEstate.ViewModels.Catalog.Product;
+﻿using KRealEstate.ViewModels.Catalog.Assigns;
+using KRealEstate.ViewModels.Catalog.Product;
 using KRealEstate.ViewModels.Catalog.Products;
 using KRealEstate.ViewModels.Common;
 
@@ -12,5 +13,9 @@ namespace KRealEstate.Application.Catalog.Products
         public Task<int> AddViewCount(string id);
         public Task<ProductDetailViewModel> GetById(string id);
         public Task<ProductDetailViewModel> GetBySlug(string slug);
+        public Task<int> UpdateProduct(string id, ProductDetailViewModel request);
+
+        //asign method
+        public Task<bool> CategoryAssign(string id, CategoryAssignRequest request);
     }
 }
