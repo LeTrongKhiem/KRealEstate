@@ -1,4 +1,5 @@
 ﻿using KRealEstate.ViewModels.Catalog.Assigns;
+using KRealEstate.ViewModels.Catalog.Images;
 using KRealEstate.ViewModels.Catalog.Product;
 using KRealEstate.ViewModels.Catalog.Products;
 using KRealEstate.ViewModels.Common;
@@ -15,7 +16,12 @@ namespace KRealEstate.Application.Catalog.Products
         public Task<ProductDetailViewModel> GetBySlug(string slug);
         public Task<int> UpdateProduct(string id, ProductDetailViewModel request);
 
-        //asign method
+        //assign method
         public Task<bool> CategoryAssign(string id, CategoryAssignRequest request);
+
+        //update images method
+        public Task<List<ImageViewModel>> GetListImage(string productID);
+        public Task<string> CreateImages(CreateImageRequest request);
+        public Task<int> UpdateImages(string imageId, UpdateImageRequest request);
     }
 }

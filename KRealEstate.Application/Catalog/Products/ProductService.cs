@@ -2,6 +2,7 @@
 using KRealEstate.Data.DBContext;
 using KRealEstate.Data.Models;
 using KRealEstate.ViewModels.Catalog.Assigns;
+using KRealEstate.ViewModels.Catalog.Images;
 using KRealEstate.ViewModels.Catalog.Product;
 using KRealEstate.ViewModels.Catalog.Products;
 using KRealEstate.ViewModels.Common;
@@ -552,7 +553,73 @@ namespace KRealEstate.Application.Catalog.Products
             return await _context.SaveChangesAsync() > 0;
         }
         #endregion
-
+        #region CreateImage
+        public async Task<string> CreateImages(CreateImageRequest request)
+        {
+            var product = await _context.Products.FindAsync(request.ProductId);
+            if (product == null)
+            {
+                return null;
+            }
+            Guid gImage = Guid.NewGuid();
+            var productImage = new ProductImage()
+            {
+                Id = gImage.ToString(),
+                Alt = request.ProductId.ToString(),
+                IsThumbnail = request.IsThumbnail,
+                ProductId = product.Id,
+            };
+            foreach (var image in request.Images)
+            {
+                if (request.Images != null)
+                {
+                    productImage.Path = await _storageService.SaveFile(image, CHILD_PATH);
+                }
+                _context.ProductImages.Add(productImage);
+            }
+            await _context.SaveChangesAsync();
+            return productImage.Id;
+        }
+        #endregion
+        #region GetListImage 
+        public async Task<List<ImageViewModel>> GetListImage(string productID)
+        {
+            var images = await _context.ProductImages.Where(x => x.ProductId.Equals(productID)).Select(x => new ImageViewModel()
+            {
+                Alt = x.Alt,
+                Id = x.Id,
+                IsThumbnail = x.IsThumbnail,
+                Path = x.Path
+            }).ToListAsync();
+            return images;
+        }
+        #endregion
+        #region Update Image
+        public async Task<int> UpdateImages(string imageId, UpdateImageRequest request)
+        {
+            var productImages = await _context.ProductImages.FindAsync(imageId);
+            if (productImages == null)
+            {
+                throw new Exception("Not found");
+            }
+            if (request.Images != null)
+            {
+                string fullPath = "wwwroot" + productImages.Path;
+                File.Delete(fullPath);
+                productImages.Path = await _storageService.SaveFile(request.Images, CHILD_PATH);
+                productImages.IsThumbnail = request.IsThumbnail;
+                _context.ProductImages.Update(productImages);
+                return await _context.SaveChangesAsync();
+            }
+            else
+            {
+                productImages.Path = productImages.Path;
+                productImages.IsThumbnail = request.IsThumbnail;
+                _context.ProductImages.Update(productImages);
+                return await _context.SaveChangesAsync();
+            }
+        }
+        #endregion
     }
 }
 

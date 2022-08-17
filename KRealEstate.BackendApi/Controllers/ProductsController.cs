@@ -1,5 +1,6 @@
 ﻿using KRealEstate.Application.Catalog.Products;
 using KRealEstate.ViewModels.Catalog.Assigns;
+using KRealEstate.ViewModels.Catalog.Images;
 using KRealEstate.ViewModels.Catalog.Product;
 using KRealEstate.ViewModels.Catalog.Products;
 using KRealEstate.ViewModels.Common;
@@ -108,6 +109,59 @@ namespace KRealEstate.BackendApi.Controllers
             if (!result)
             {
                 return BadRequest(request);
+            }
+            return Ok(result);
+        }
+        [HttpGet("images/getlist/{productId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetListImages(string productId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var result = await _productService.GetListImage(productId);
+            if (result == null)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+        [HttpPost("images/{productId}/create")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateImages(string productId, [FromForm] CreateImageRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            CreateImageRequest re = new CreateImageRequest()
+            {
+                ProductId = productId,
+                ImageId = request.ImageId,
+                Images = request.Images,
+                IsThumbnail = request.IsThumbnail,
+                Path = request.Path
+            };
+            var result = await _productService.CreateImages(re);
+            if (result == null)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+        [HttpPut("images/update/{imageId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateImages(string imageId, [FromForm] UpdateImageRequest request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var result = await _productService.UpdateImages(imageId, request);
+            if (result == 0)
+            {
+                return BadRequest(result);
             }
             return Ok(result);
         }
