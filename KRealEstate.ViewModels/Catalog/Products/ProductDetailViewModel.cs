@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using KRealEstate.ViewModels.Catalog.Addresss;
+using KRealEstate.ViewModels.Catalog.Posts;
+using Microsoft.AspNetCore.Http;
 
 namespace KRealEstate.ViewModels.Catalog.Products
 {
@@ -25,8 +23,13 @@ namespace KRealEstate.ViewModels.Catalog.Products
         public string? Furniture { get; set; }
         public string? Slug { get; set; }
 
-        public string UserId { get; set; } = null!;
-        public DateTime DatePost { get; set; }
-
+        public List<string> ListImages { get; set; } = new List<string>();
+        public List<string> ListCategory { get; set; } = new List<string>();
+        public DirectionViewModel DirectionVm { get; set; }
+        public AddressViewModel AddressVm { get; set; }
+        public PostDetailViewModel PostDetailVm { get; set; }
+        public PostViewModel PostVm { get; set; }
+        public PostTypeViewModel PostTypeVm { get; set; }
+        public IFormFile ThumbnailImages { get; set; }
     }
 }
