@@ -165,5 +165,69 @@ namespace KRealEstate.BackendApi.Controllers
             }
             return Ok(result);
         }
+        [HttpDelete("images/delete/{imageId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateImages(string imageId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var result = await _productService.RemoveImage(imageId);
+            if (result == 0)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+        [HttpGet("getoutstanding/{quantity}/{typeProject}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetProjectOutstanding(int quantity, bool typeProject)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var result = await _productService.GetProjectOutStanding(quantity, typeProject);
+            if (result == null)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+        #region Get count product
+        [HttpGet("getcountproductinprovince/{provinceId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetCountProductInProvince(string provinceId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var result = await _productService.GetPostCountByProvinceId(provinceId);
+            if (result == null)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+        #endregion
+        #region Get product province paging
+        [HttpGet("getproductsbyprovince")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetProductsBy([FromQuery] PagingProvince request)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            var result = await _productService.GetProductByProvinceId(request);
+            if (result == null)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+        #endregion
     }
 }
