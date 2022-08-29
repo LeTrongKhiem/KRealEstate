@@ -15,6 +15,9 @@ namespace KRealEstate.Application.Catalog.Products
         public Task<ProductDetailViewModel> GetById(string id);
         public Task<ProductDetailViewModel> GetBySlug(string slug);
         public Task<int> UpdateProduct(string id, ProductDetailViewModel request);
+        public Task<List<ProductViewModel>> GetProjectOutStanding(int quantity, bool typeProject);
+        public Task<PageResult<ProductViewModel>> GetProductByProvinceId(PagingProvince request);
+        public Task<int> GetPostCountByProvinceId(string provinceId);
 
         //assign method
         public Task<bool> CategoryAssign(string id, CategoryAssignRequest request);
@@ -23,5 +26,7 @@ namespace KRealEstate.Application.Catalog.Products
         public Task<List<ImageViewModel>> GetListImage(string productID);
         public Task<string> CreateImages(CreateImageRequest request);
         public Task<int> UpdateImages(string imageId, UpdateImageRequest request);
+        public Task<int> RemoveImage(string imageId);
+
     }
 }

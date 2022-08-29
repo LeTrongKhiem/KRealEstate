@@ -16,5 +16,8 @@
         public int? BedRoom { get; set; }
         public bool? HaveImages { get; set; }
         public bool? HaveVideo { get; set; }
+        public string? ProvinceCode { get; set; }
+        public string? WardCode { get; set; }
+        public string? DistrictCode { get; set; }
     }
 }

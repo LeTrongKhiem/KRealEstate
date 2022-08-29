@@ -127,6 +127,18 @@ namespace KRealEstate.Application.Catalog.Products
             {
                 query = query.Where(x => x.p.Bedroom == request.BedRoom);
             }
+            if (request.ProvinceCode != null)
+            {
+                query = query.Where(x => x.add.ProviceCode.Equals(request.ProvinceCode));
+            }
+            if (request.WardCode != null)
+            {
+                query = query.Where(x => x.add.WardCode.Equals(request.WardCode));
+            }
+            if (request.DistrictCode != null)
+            {
+                query = query.Where(x => x.add.DistrictCode.Equals(request.DistrictCode));
+            }
             //if (request.HaveImages)
             //{
             //    if (query.Where(x => x.pi.ProductId == x.p.Id).Any())
@@ -620,6 +632,99 @@ namespace KRealEstate.Application.Catalog.Products
             }
         }
         #endregion
+        #region Remove Image
+        public async Task<int> RemoveImage(string imageId)
+        {
+            var productImages = await _context.ProductImages.FindAsync(imageId);
+            if (productImages == null)
+            {
+                throw new Exception("Not found");
+            }
+            var fullPath = "wwwroot" + productImages.Path;
+            if (File.Exists(fullPath))
+            {
+                await Task.Run(() =>
+                {
+                    File.Delete(fullPath);
+                });
+            }
+            _context.ProductImages.Remove(productImages);
+            return await _context.SaveChangesAsync();
+        }
+        #endregion
+        #region Get Project Outstanding
+        public async Task<List<ProductViewModel>> GetProjectOutStanding(int quantity, bool typeProject)
+        {
+            var query = (from p in _context.Products
+                         join pi in _context.ProductImages
+                         on p.Id equals pi.ProductId
+                         into ppi
+                         from pi in ppi.DefaultIfEmpty()
+                         where p.IsShowWeb == true && p.Project == typeProject && pi.IsThumbnail == true
+                         orderby p.ViewCount
+                         select new { p, pi }).Take(quantity);
+            var products = await query.Select(x => new ProductViewModel()
+            {
+                ThumbnailImage = x.pi.Path,
+                AddressDisplay = x.p.AddressDisplay,
+                Area = x.p.Area,
+                Description = x.p.Description,
+                Name = x.p.Name,
+                Price = x.p.Price
+            }).ToListAsync();
+            return products;
+        }
+        #endregion
+        #region Get Product By Province Id
+        public async Task<PageResult<ProductViewModel>> GetProductByProvinceId(PagingProvince request)
+        {
+            var query = from p in _context.Products
+                        join address in _context.Addresses on p.AddressId equals address.Id
+                        into paddress
+                        from address in paddress.DefaultIfEmpty()
+                        join pi in _context.ProductImages
+                        on p.Id equals pi.ProductId
+                        into ppi
+                        from pi
+                        in ppi.DefaultIfEmpty()
+                        where address.ProviceCode == request.ProvinceId && pi.IsThumbnail == true
+                        select new { p, address, pi };
+            var totalCount = await query.CountAsync();
+            var items = await query.Skip((request.PageIndex - 1) * request.PageSize)
+                                .Take(request.PageSize)
+                                .Select(x => new ProductViewModel()
+                                {
+                                    ThumbnailImage = x.pi.Path,
+                                    AddressDisplay = x.p.AddressDisplay,
+                                    Area = x.p.Area,
+                                    Description = x.p.Description,
+                                    Name = x.p.Name,
+                                    Price = x.p.Price
+                                }).ToListAsync();
+            var result = new PageResult<ProductViewModel>()
+            {
+                Items = items,
+                TotalRecord = totalCount,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize
+            };
+            return result;
+        }
+        #endregion
+        #region Get quantity product in province 
+        public async Task<int> GetPostCountByProvinceId(string provinceId)
+        {
+            var query = from p in _context.Products
+                        join address in _context.Addresses on p.AddressId equals address.Id
+                        into paddress
+                        from address in paddress.DefaultIfEmpty()
+                        where address.ProviceCode == provinceId
+                        select p;
+            int count = await query.CountAsync();
+            return count;
+        }
+        #endregion
+
     }
 }
 

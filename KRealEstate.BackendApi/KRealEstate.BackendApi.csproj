@@ -34,6 +34,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\user-content\image-product\" />
+    <Folder Include="wwwroot\user-content\banner\" />
   </ItemGroup>
 
 </Project>

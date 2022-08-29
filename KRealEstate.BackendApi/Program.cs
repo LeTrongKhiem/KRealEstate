@@ -1,4 +1,5 @@
 using FluentValidation.AspNetCore;
+using KRealEstate.Application.Banners;
 using KRealEstate.Application.Catalog.Categories;
 using KRealEstate.Application.Catalog.Products;
 using KRealEstate.Application.Common;
@@ -127,6 +128,7 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IStorageService, FileStorageService>();
+builder.Services.AddTransient<IBannerService, BannerService>();
 
 builder.Services.AddMvc(options =>
 {

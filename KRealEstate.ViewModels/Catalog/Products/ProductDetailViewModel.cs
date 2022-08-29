@@ -18,7 +18,7 @@ namespace KRealEstate.ViewModels.Catalog.Products
         public string? DirectionId { get; set; }
         public bool? IsShowWeb { get; set; }
         public int? Floor { get; set; }
-        public string? Project { get; set; }
+        public bool? Project { get; set; }
         public string? AddressDisplay { get; set; }
         public string? Furniture { get; set; }
         public string? Slug { get; set; }
