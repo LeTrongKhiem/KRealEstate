@@ -11,6 +11,7 @@ namespace KRealEstate.Application.Banners
 {
     public class BannerService : IBannerService
     {
+        #region Constructor
         private readonly RealEstateDBContext _context;
         private readonly SEO _extension;
         private readonly IStorageService _storageService;
@@ -21,6 +22,7 @@ namespace KRealEstate.Application.Banners
             _extension = new SEO();
             _storageService = storageService;
         }
+        #endregion
         #region Get All
         public async Task<PageResult<BannerViewModel>> GetAll(int pageSize, int pageIndex, string? keyWord)
         {
@@ -75,6 +77,63 @@ namespace KRealEstate.Application.Banners
             }
             await _context.SaveChangesAsync();
             return new ResultApiSuccess<string>("Create Banner Successful!");
+        }
+        #endregion
+        #region Edit
+        public async Task<ResultApi<bool>> EditBanner(string id, EditBannerRequest request)
+        {
+            var banner = await _context.Banners.FindAsync(id);
+            if (banner == null)
+            {
+                return new ResultApiError<bool>("Not found banner");
+            }
+            banner.NameBanner = request.NameBanner != null ? request.NameBanner : banner.NameBanner;
+            banner.Alt = _extension.SEOUrl(request.NameBanner);
+            if (request.Image == null)
+            {
+                banner.Image = banner.Image;
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
+                string fullPath = "wwwroot" + banner.Image;
+                if (File.Exists(fullPath))
+                {
+                    await Task.Run(() =>
+                    {
+                        File.Delete(fullPath);
+                    });
+                }
+                if (request.Image != null)
+                {
+                    banner.Image = await _storageService.SaveFile(request.Image, ChildPath);
+                    _context.Banners.Update(banner);
+                    await _context.SaveChangesAsync();
+                    return new ResultApiSuccess<bool>();
+                }
+            }
+            return new ResultApiError<bool>("Error");
+        }
+        #endregion
+        #region Delete
+        public async Task<ResultApi<bool>> DeleteBanner(string id)
+        {
+            var banner = await _context.Banners.FindAsync(id);
+            if (banner == null)
+            {
+                return new ResultApiError<bool>("Not found banner");
+            }
+            string fullPath = "wwwroot" + banner.Image;
+            if (File.Exists(fullPath))
+            {
+                await Task.Run(() =>
+                {
+                    File.Delete(fullPath);
+                });
+            }
+            _context.Banners.Remove(banner);
+            await _context.SaveChangesAsync();
+            return new ResultApiSuccess<bool>();
         }
         #endregion
     }
