@@ -18,6 +18,7 @@ namespace KRealEstate.Application.Catalog.Products
         public Task<List<ProductViewModel>> GetProjectOutStanding(int quantity, bool typeProject);
         public Task<PageResult<ProductViewModel>> GetProductByProvinceId(PagingProvince request);
         public Task<int> GetPostCountByProvinceId(string provinceId);
+
         //assign method
         public Task<bool> CategoryAssign(string id, CategoryAssignRequest request);
 

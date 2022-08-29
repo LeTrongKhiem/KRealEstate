@@ -724,6 +724,7 @@ namespace KRealEstate.Application.Catalog.Products
             return count;
         }
         #endregion
+
     }
 }
 

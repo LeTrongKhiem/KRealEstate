@@ -1,15 +1,10 @@
 ﻿using KRealEstate.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace KRealEstate.Data.Dtos
 {
     //public class ClassDTO
     //{
-    #region Category
+    #region CategoryDTO
     public class CategoryDTO
     {
         public string Id { get; set; } = null!;
@@ -21,8 +16,19 @@ namespace KRealEstate.Data.Dtos
         public bool? Type { get; set; }
     }
     #endregion
+    #region BannerDTO
+    public class BannerDTO
+    {
+        public string Id { get; set; } = null!;
+        public string NameBanner { get; set; } = null!;
+        public string Image { get; set; } = null!;
+        public string Alt { get; set; } = null!;
+        public string? Text { get; set; }
+    }
+    #endregion
     public static class Mapping
     {
+        #region Category Mapping
         public static void MappingCategory(this Category category, CategoryDTO dto)
         {
             category.Id = dto.Id;
@@ -34,6 +40,17 @@ namespace KRealEstate.Data.Dtos
             category.Type = dto.Type;
             category.SortOrder = dto.SortOrder;
         }
+        #endregion
+        #region Banner Mapping
+        public static void BannerMapping(this Banner banner, BannerDTO dto)
+        {
+            banner.Id = dto.Id;
+            banner.NameBanner = dto.NameBanner;
+            banner.Text = dto.Text;
+            banner.Alt = dto.Alt;
+            banner.Image = dto.Image;
+        }
+        #endregion
     }
 }
 //}
