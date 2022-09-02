@@ -1,0 +1,124 @@
+// out: ../css/colors/, compress: true
+
+/* === File import === */
+
+@import "../variables.less";
+
+/* === variables === */
+
+@topbar1: #f2a225;
+@topbar2: #ffbb51;
+@sidebar: #ffffff;
+@bodycolor: #f4f8f9;
+@headingtext: #333b3f;
+@themecolor: #ffb136;
+@bodytext: #8d9498;
+@sidebar-text: #8d9498;
+
+/* === CSS start === */
+
+body {
+    background: @sidebar;
+}
+
+.logo i {
+    color: @white;
+}
+
+.navbar-header {
+    background: @topbar1;
+    background: -moz-linear-gradient(left, @topbar1 1%, @topbar2 100%);
+    background: -webkit-linear-gradient(left, @topbar1 1%, @topbar2 100%);
+    background: linear-gradient(to right, @topbar1 1%, @topbar2 100%);
+}
+
+.right-sidebar .rpanel-title {
+    background: @topbar1;
+    background: -moz-linear-gradient(left, @topbar1 1%, @topbar2 100%);
+    background: -webkit-linear-gradient(left, @topbar1 1%, @topbar2 100%);
+    background: linear-gradient(to right, @topbar1 1%, @topbar2 100%);
+}
+
+.bg-title .breadcrumb .active {
+    color: @themecolor;
+}
+
+
+/* === sidebar css === */
+
+.sidebar-nav,
+sidebar {
+    background: @sidebar;
+}
+
+#side-menu li a {
+    color: @sidebar-text;
+}
+
+.sidebar-nav ul#side-menu li a.active {
+    color: @dark;
+    i {
+        color: @themecolor;
+    }
+}
+
+.mini-sidebar .sidebar-nav #side-menu>li:hover>a {
+    i {
+        color: @themecolor;
+    }
+}
+
+#side-menu ul > li > a {
+    &:hover {
+        color: @themecolor;
+    }
+    &.active {
+        color: @dark;
+        font-weight: 500;
+    }
+}
+
+.fix-sidebar .top-left-part {
+    background: @topbar1;
+}
+
+.bg-theme {
+    background-color: @themecolor !important;
+}
+
+.chat-list .odd .chat-text {
+    background: @themecolor;
+}
+
+.btn-custom {
+    background: @themecolor;
+    border: 1px solid @themecolor;
+    color: @white;
+    &:hover {
+        background: @themecolor;
+        opacity: 0.8;
+        color: @white;
+        border: 1px solid @themecolor;
+    }
+}
+
+.customtab li.active a,
+.customtab li.active a:hover,
+.customtab li.active a:focus {
+    border-bottom: 2px solid @themecolor;
+    color: @themecolor;
+}
+
+.tabs-vertical li.active a,
+.tabs-vertical li.active a:hover,
+.tabs-vertical li.active a:focus {
+    background: @themecolor;
+    border-right: 2px solid @themecolor;
+}
+
+.nav-pills>li.active>a,
+.nav-pills>li.active>a:focus,
+.nav-pills>li.active>a:hover {
+    background: @themecolor;
+    color: @white;
+}

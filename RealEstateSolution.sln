@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KRealEstate.WebApp", "KRealEstate.WebApp\KRealEstate.WebApp.csproj", "{1CEA47F9-9EEF-49E8-9377-E97BA65D7318}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KRealEstate.WebApp", "KRealEstate.WebApp\KRealEstate.WebApp.csproj", "{1CEA47F9-9EEF-49E8-9377-E97BA65D7318}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0. Introduce", "0. Introduce", "{C379EBB5-CBD5-4C33-B3B9-212710D8714D}"
 	ProjectSection(SolutionItems) = preProject
@@ -16,15 +16,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2. Doman", "2. Doman", "{3C
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3. Host", "3. Host", "{AB075FFC-A3CB-41AD-B57F-4AB3C21CBBB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KRealEstate.Utilities", "KRealEstate.Utilities\KRealEstate.Utilities.csproj", "{E3C548CE-D8FC-4B32-BAB4-283DF5623184}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KRealEstate.Utilities", "KRealEstate.Utilities\KRealEstate.Utilities.csproj", "{E3C548CE-D8FC-4B32-BAB4-283DF5623184}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KRealEstate.ViewModels", "KRealEstate.ViewModels\KRealEstate.ViewModels.csproj", "{D7D249DA-F415-4E9B-BB40-A822C7FB6B75}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KRealEstate.ViewModels", "KRealEstate.ViewModels\KRealEstate.ViewModels.csproj", "{D7D249DA-F415-4E9B-BB40-A822C7FB6B75}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KRealEstate.Application", "KRealEstate.Application\KRealEstate.Application.csproj", "{B2DAFE30-0CCC-49F3-B0DA-DF09064B36FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KRealEstate.Application", "KRealEstate.Application\KRealEstate.Application.csproj", "{B2DAFE30-0CCC-49F3-B0DA-DF09064B36FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KRealEstate.Data", "KRealEstate.Data\KRealEstate.Data.csproj", "{8AE14D08-70FD-49C6-914B-5CC7D8E9D221}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KRealEstate.Data", "KRealEstate.Data\KRealEstate.Data.csproj", "{8AE14D08-70FD-49C6-914B-5CC7D8E9D221}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KRealEstate.BackendApi", "KRealEstate.BackendApi\KRealEstate.BackendApi.csproj", "{DC1C4972-CFA3-45F5-BAC9-9803B4439351}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KRealEstate.BackendApi", "KRealEstate.BackendApi\KRealEstate.BackendApi.csproj", "{DC1C4972-CFA3-45F5-BAC9-9803B4439351}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KRealEstate.AdminWebApp", "KRealEstate.AdminWebApp\KRealEstate.AdminWebApp.csproj", "{99A09123-7CEC-45C3-82A0-155D682CAF1B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{DC1C4972-CFA3-45F5-BAC9-9803B4439351}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC1C4972-CFA3-45F5-BAC9-9803B4439351}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC1C4972-CFA3-45F5-BAC9-9803B4439351}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99A09123-7CEC-45C3-82A0-155D682CAF1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99A09123-7CEC-45C3-82A0-155D682CAF1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99A09123-7CEC-45C3-82A0-155D682CAF1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99A09123-7CEC-45C3-82A0-155D682CAF1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{B2DAFE30-0CCC-49F3-B0DA-DF09064B36FD} = {3C1B1984-7C53-4980-9BB5-8FA0FCC4A050}
 		{8AE14D08-70FD-49C6-914B-5CC7D8E9D221} = {3C1B1984-7C53-4980-9BB5-8FA0FCC4A050}
 		{DC1C4972-CFA3-45F5-BAC9-9803B4439351} = {AB075FFC-A3CB-41AD-B57F-4AB3C21CBBB2}
+		{99A09123-7CEC-45C3-82A0-155D682CAF1B} = {AB075FFC-A3CB-41AD-B57F-4AB3C21CBBB2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C6B600E1-8F50-49CA-A0CE-E36A151F6EEB}

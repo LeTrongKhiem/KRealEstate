@@ -1,0 +1,1380 @@
+@import "variables.less";
+
+/* =============== Topbar-Navigation =============== */
+
+.logo b {
+    height: 60px;
+    display: inline-block;
+    width: 60px;
+    line-height: 60px;
+    text-align: center;
+}
+
+.logo i {
+    color: @white;
+}
+
+.top-left-part {
+    width: 265px;
+    float: left;
+    background: rgba(0, 0, 0, .1);
+    a {
+        color: @white;
+        font-size: 18px;
+        padding-left: 0px;
+        text-transform: uppercase;
+    }
+}
+
+.navbar-header {
+    width: 100%;
+    background: @topbar1;
+    background: -moz-linear-gradient(left, @topbar1 1%, @topbar2 100%);
+    background: -webkit-linear-gradient(left, @topbar1 1%, @topbar2 100%);
+    background: linear-gradient(to right, @topbar1 1%, @topbar2 100%);
+    border: 0px;
+}
+
+.navbar-default {
+    border: 0px;
+}
+
+.navbar-top-links {
+    margin-right: 0;
+}
+
+.navbar-top-links .badge {
+    position: absolute;
+    right: 9px;
+    top: 11px;
+}
+
+.navbar-top-links > li {
+    float: left;
+}
+
+.navbar-top-links > li > a {
+    color: rgba(255, 255, 255, .7);
+    line-height: 60px;
+    min-height: 60px;
+    &:hover {
+        background: rgba(0, 0, 0, 0.1)
+    }
+    &:focus {
+        background: transparent;
+    }
+}
+
+.navbar-left > li {
+    a,
+    .app-search {
+        padding: 0 15px;
+    }
+}
+
+.navbar-right > li > a {
+    padding: 0 24px;
+    border-right: 1px solid @border;
+}
+
+.nav .open > a,
+.nav .open > a:focus,
+.nav .open > a:hover {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: @border;
+}
+
+.navbar-top-links .dropdown-menu li {
+    display: block;
+}
+
+.navbar-top-links .dropdown-menu li:last-child {
+    margin-right: 0;
+}
+
+.navbar-top-links .dropdown-menu li a div {
+    white-space: normal;
+}
+
+.navbar-top-links .dropdown-messages,
+.navbar-top-links .dropdown-tasks,
+.navbar-top-links .dropdown-alerts {
+    width: 310px;
+    min-width: 0;
+}
+
+.navbar-top-links .dropdown-messages {
+    margin-left: 5px;
+}
+
+.navbar-top-links .dropdown-tasks {
+    margin-left: -59px;
+}
+
+.navbar-top-links .dropdown-alerts {
+    margin-left: -123px;
+}
+
+.navbar-top-links .dropdown-user {
+    right: 0;
+    left: auto;
+}
+
+.navbar-header .navbar-toggle {
+    float: none;
+    padding: 0 15px;
+    line-height: 60px;
+    border: 0px;
+    color: rgba(255, 255, 255, 0.5);
+    margin: 0px;
+    display: inline-block;
+    border-radius: 0px;
+    &:hover,
+    &:focus {
+        background: rgba(0, 0, 0, 0.1);
+        color: rgba(255, 255, 255, 1);
+    }
+}
+
+
+/* =============== Topbar-Search-Form =============== */
+
+.app-search {
+    position: relative;
+    line-height: 60px;
+}
+
+.app-search i {
+    color: @white;
+}
+
+.app-search .form-control,
+.app-search .form-control:focus {
+    border: none;
+    font-size: 16px;
+    color: rgba(255, 255, 255, .7);
+    background: none;
+    box-shadow: none;
+    height: 30px;
+    font-weight: 600;
+    width: 180px;
+    padding: 6px 7px;
+    display: inline-block;
+}
+
+.app-search .form-control::-moz-placeholder {
+    color: rgba(255, 255, 255, .7);
+}
+
+.app-search .form-control::-webkit-input-placeholder {
+    color: rgba(255, 255, 255, .7);
+}
+
+.app-search .form-control::-ms-placeholder {
+    color: rgba(255, 255, 255, .7);
+}
+
+.profile {
+    margin-right: 17px;
+    i {
+        margin-right: 15px;
+        margin-top: -10px;
+        display: inline-block;
+        vertical-align: middle;
+        color: @white;
+    }
+    span {
+        display: inline-block;
+        vertical-align: middle;
+        margin-top: -10px;
+        color: rgba(255, 255, 255, .7);
+    }
+}
+
+.drop-title {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    color: @dark;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 11px 20px 15px;
+}
+
+
+/* =============== Content =============== */
+
+#wrapper {
+    width: 100%;
+}
+
+.page-wrapper {
+    background: @bodycolor;
+    padding-bottom: 60px;
+}
+
+.container-fluid {
+    padding: 30px;
+    padding-bottom: 0px;
+}
+
+.white-box {
+    background: @white;
+    padding: 25px;
+    margin-bottom: 30px;
+    border: 1px solid @common;
+    border-radius: 4px;
+    .box-title {
+        margin: 10px 0px 12px;
+        font-weight: 600;
+        font-size: 18px;
+    }
+}
+
+
+/* =============== Index Widgets =============== */
+
+.info-box {
+    background: @white;
+    padding: 40px 30px 35px 25px;
+    border-right: 1px solid @common;
+    border-bottom: 1px solid @common;
+    .media {
+        padding: 0;
+        border: none;
+        margin: 0;
+    }
+    .media-left {
+        padding-right: 30px;
+    }
+    .icoleaf {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        padding: 5px 12px;
+        font-size: 28px;
+        border-top-left-radius: 50%;
+        border-bottom-left-radius: 50%;
+        border-bottom-right-radius: 50%;
+    }
+    .info-count {
+        font-size: 30px;
+        margin-top: -5px;
+        margin-bottom: 5px;
+    }
+    .info-text {
+        text-transform: uppercase;
+    }
+    .hr-line {
+        width: 35px;
+    }
+    .info-ot {
+        margin: 0px;
+        margin-top: 4px;
+        .label {
+            margin-left: 5px;
+            font-size: 14px;
+            border-radius: 4px;
+            padding: 0px 4px;
+            min-width: 35px;
+            height: 20px;
+            font-weight: 600;
+        }
+    }
+    .e {
+        position: relative;
+        height: 94px;
+        width: 94px;
+    }
+    .p {
+        position: absolute;
+        top: 11px;
+        left: 11px;
+        width: 74px;
+        height: 74px;
+    }
+    .b {
+        position: absolute;
+        top: 23px;
+        left: 23px;
+        width: 50px;
+        height: 50px;
+    }
+    ul li {
+        color: @dark-text;
+    }
+}
+
+.user-table {
+    .custom-select {
+        background-color: transparent;
+        margin-left: 0;
+        margin-right: 8px;
+        font-weight: 400;
+        padding: 9px 45px 9px 0px;
+    }
+    .custom-select,
+    ul.list-inline {
+        float: right;
+    }
+    td {
+        .custom-select {
+            float: none;
+        }
+    }
+    .btn {
+        border: 2px solid @light;
+        width: 45px;
+        height: 45px;
+        border-radius: 100%;
+        line-height: 28px;
+    }
+    .pagination {
+        margin-bottom: 10px;
+    }
+    .pagination>li>a,
+    .pagination>li>span {
+        border: none;
+        margin: 0 10px;
+        padding: 4px 6px;
+        border-radius: 4px;
+    }
+}
+
+.task-widget {
+    .task-chart {
+        padding: 10px 0px 20px 0px;
+        border-bottom: 1px solid @common;
+    }
+    .task-content {
+        display: flex;
+        border-bottom: 1px solid @common;
+        div {
+            padding: 15px 15px 10px;
+            h1 {
+                margin-bottom: 0px;
+            }
+        }
+    }
+    .task-assign {
+        margin-top: 20px;
+        ul.list-inline {
+            margin-top: 15px;
+            li {
+                padding: 0 12px;
+                img,
+                a {
+                    width: 45px;
+                    height: 45px;
+                    border-radius: 100%;
+                }
+                a {
+                    line-height: 30px;
+                    text-align: center;
+                }
+            }
+        }
+    }
+}
+
+.stat-widget {
+    .custom-select,
+    ul.list-inline {
+        float: right;
+    }
+    .stat {
+        position: relative;
+        margin-top: 67px;
+        .chartist-tooltip {
+            border-radius: 60px;
+        }
+        .ct-series-a .ct-line {
+            stroke: @primary;
+            stroke-width: 2px;
+        }
+        .ct-series-a .ct-point {
+            stroke: @primary;
+            stroke-width: 7px;
+        }
+        .ct-series-b .ct-line {
+            stroke: @success;
+            stroke-width: 2px;
+        }
+        .ct-series-b .ct-point {
+            stroke: @success;
+            stroke-width: 7px;
+        }
+        .ct-series-a .ct-area,
+        .ct-series-b .ct-area {
+            fill: transparent;
+        }
+        .ct-label {
+            color: @bodytext;
+            font-size: 14px;
+        }
+    }
+}
+
+.color-box {
+    position: relative;
+    .hr-line {
+        width: 25px;
+        background-color: @white;
+        margin: 10px 0px;
+    }
+    .cb-text {
+        color: @white;
+        text-transform: uppercase;
+    }
+    h6 {
+        margin: 20px 0 0 0;
+        span {
+            color: rgba(255, 255, 255, .7);
+            text-transform: uppercase;
+        }
+    }
+    .chart {
+        position: absolute;
+        top: 20px;
+        right: 40px;
+    }
+    .ct-revenue {
+        margin: 0 -25px -38px -58px;
+        .ct-series-a {
+            .ct-line {
+                stroke: @white;
+            }
+            .ct-area {
+                fill: none;
+            }
+            .ct-point {
+                display: none;
+            }
+        }
+        .ct-grid {
+            stroke: rgba(255, 255, 255, .7);
+        }
+        .ct-label {
+            color: rgba(255, 255, 255, .7);
+            font-size: 14px;
+        }
+    }
+    .ct-visit {
+        .ct-label {
+            color: @white;
+            font-size: 11px;
+        }
+        .ct-series-a,
+        .ct-series-c {
+            .ct-bar {
+                stroke: rgba(255, 255, 255, .7);
+            }
+        }
+        .ct-series-b {
+            .ct-bar {
+                stroke: @white;
+            }
+        }
+    }
+}
+
+.task-widget2 {
+    margin: -25px -25px 0 -25px;
+    .task-image {
+        position: relative;
+        img {
+            width: 100%;
+            height: 125px;
+        }
+    }
+    .task-image-overlay {
+        position: absolute;
+        height: 100%;
+        width: 100%;
+        background-color: rgba(4, 138, 190, 0.9);
+        top: 0;
+        border-radius: 4px;
+    }
+    .task-detail {
+        position: absolute;
+        top: 15px;
+        left: 35px;
+        h2 {
+            font-size: 30px;
+        }
+    }
+    .task-add-btn {
+        position: absolute;
+        top: 97px;
+        right: 55px;
+        a {
+            width: 50px;
+            height: 50px;
+            border-radius: 100%;
+            font-size: 25px;
+        }
+    }
+    .task-total {
+        padding: 25px;
+    }
+    .task-list {
+        .list-group {
+            .list-group-item {
+                border-right: none;
+                padding: 15px 15px 15px 35px;
+                label span {
+                    padding-left: 25px;
+                    display: inline-block;
+                }
+            }
+        }
+    }
+    .task-loadmore {
+        padding: 10px 35px 0px;
+        .btn {
+            padding: 8px 30px;
+        }
+    }
+}
+
+.chat-widget {
+    a {
+        margin-top: 5px;
+        font-size: 24px;
+        color: @themecolor;
+    }
+    .chat-list {
+        list-style: none;
+        max-height: 500px;
+        padding: 0px;
+        margin-top: 25px;
+        li {
+            margin-bottom: 19px;
+            overflow: auto;
+        }
+        .chat-image {
+            display: inline-block;
+            float: left;
+            text-align: center;
+            width: 50px;
+            img {
+                border-radius: 100%;
+                width: 100%;
+            }
+        }
+        .chat-body {
+            display: inline-block;
+            float: left;
+            margin-left: 25px;
+            width: 69%;
+            position: relative;
+            .chat-text {
+                background: @success;
+                border-radius: 4px;
+                display: inline-block;
+                padding: 15px;
+                position: relative;
+                p {
+                    color: @white;
+                    font-size: 15px;
+                    display: block;
+                    margin: 0;
+                    position: relative;
+                }
+            }
+            &::before {
+                position: absolute;
+                content: "";
+                width: 0px;
+                height: 0px;
+                left: -8px;
+                top: 15px;
+                border-top: 6px solid transparent;
+                border-bottom: 6px solid transparent;
+                border-right: 8px solid @success;
+            }
+            span {
+                display: inline-block;
+                width: 100%;
+            }
+        }
+        .odd {
+            .chat-body {
+                float: right !important;
+                text-align: right;
+                margin-right: 10px;
+                color: @bodytext;
+                width: 100%;
+                .chat-text {
+                    background: @bodycolor;
+                    p {
+                        color: @bodytext;
+                    }
+                }
+                span {
+                    display: inline-block;
+                    width: 100%;
+                }
+            }
+        }
+    }
+    .chat-send {
+        padding-right: 10px;
+        position: relative;
+        margin-top: 18px;
+        .form-control {
+            border: 2px solid @common;
+            height: 45px;
+            padding-left: 50px;
+        }
+        i {
+            position: absolute;
+            top: 13px;
+            left: 15px;
+            font-size: 20px;
+            color: @primary;
+        }
+    }
+}
+
+
+/* =============== Index2 Widget =============== */
+
+.colorbox-group-widget {
+    .white-box {
+        padding: 0;
+        background: none;
+    }
+    .info-color-box {
+        .media {
+            padding: 20px 30px;
+            border: none;
+            margin: 0;
+            border-radius: 4px;
+            .info-count {
+                font-size: 30px;
+                margin-bottom: 5px;
+                color: @white;
+            }
+            .info-text {
+                text-transform: uppercase;
+            }
+            .info-ot {
+                margin: 0px;
+                margin-top: 4px;
+                float: right;
+                .label {
+                    margin-left: 5px;
+                    font-size: 14px;
+                    background-color: rgba(0, 0, 0, .2);
+                    border-radius: 4px;
+                    padding: 0px 4px;
+                    min-width: 35px;
+                    height: 20px;
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+}
+
+.profile-widget {
+    text-align: center;
+    .profile-img {
+        padding-top: 20px;
+    }
+    .profile-info {
+        padding-top: 10px;
+        display: flex;
+        h1 {
+            margin-bottom: 0px;
+            font-weight: 300;
+        }
+    }
+    .profile-detail {
+        padding-top: 10px;
+    }
+    .profile-btn {
+        margin-top: 24px;
+        a {
+            margin-right: 20px;
+        }
+    }
+}
+
+.comment-widget {
+    .media {
+        padding: 0px 15px;
+        border: none;
+        margin: 0;
+        margin-top: 50px;
+        .media-left {
+            padding-right: 20px;
+            img {
+                width: 48px;
+                height: 48px;
+                border-radius: 100%;
+            }
+        }
+        .media-heading {
+            font-size: 15px;
+            font-weight: normal;
+            .com-time {
+                font-style: italic;
+                color: @bodytext;
+                margin-left: 15px;
+            }
+            ul {
+                float: right;
+            }
+            li a {
+                color: @themecolor;
+                span {
+                    font-size: 14px;
+                    color: @themecolor;
+                }
+                i {
+                    color: @bodytext;
+                    &:hover,
+                    &:focus {
+                        color: @danger;
+                    }
+                }
+            }
+        }
+        p {
+            font-size: 15px;
+        }
+        .reply {
+            margin-top: 30px;
+            padding-left: 30px;
+            padding-right: 0px;
+        }
+    }
+    .add-comment {
+        position: relative;
+        margin-top: 50px;
+        padding: 0px 15px;
+        .form-control {
+            border: 2px solid @common;
+            height: 45px;
+            padding-left: 50px;
+        }
+        i {
+            position: absolute;
+            top: 13px;
+            left: 30px;
+            font-size: 20px;
+            color: @primary;
+        }
+    }
+}
+
+.sc-widget {
+    .custom-select {
+        float: right;
+    }
+    .chartist-sales-chart {}
+    .ct-bar {
+        stroke-width: 7px;
+        stroke-linecap: round;
+    }
+    .ct-series-a .ct-bar {
+        stroke: @info;
+    }
+    .ct-series-b .ct-bar {
+        stroke: @primary;
+    }
+    .ct-label {
+        font-size: 15px;
+        line-height: 2;
+        color: @bodytext;
+    }
+}
+
+.sd-widget {
+    ul {
+        margin: 0;
+        margin-top: -38px;
+    }
+    a {
+        margin-top: 8px;
+        font-size: 20px;
+        color: @bodytext;
+    }
+}
+
+.ct-sd-chart {
+    .ct-series-b {
+        .ct-line {
+            stroke-width: 2px;
+            stroke: @success;
+        }
+        .ct-area {
+            fill: @success;
+        }
+        .ct-point {
+            stroke-width: 5px;
+            stroke: @success;
+        }
+    }
+    .ct-series-a {
+        .ct-line {
+            stroke-width: 2px;
+            stroke: @primary;
+        }
+        .ct-area {
+            fill: @primary;
+        }
+        .ct-point {
+            stroke-width: 5px;
+            stroke: @primary;
+        }
+    }
+}
+
+.ct-ie-chart {
+    .ct-series-a {
+        .ct-line {
+            stroke-width: 2px;
+            stroke: @info;
+        }
+        .ct-area {
+            fill: @info;
+        }
+        .ct-point {
+            stroke-width: 5px;
+            stroke: @info;
+        }
+    }
+    .ct-series-b {
+        .ct-line {
+            stroke-width: 2px;
+            stroke: @primary;
+        }
+        .ct-area {
+            fill: @primary;
+        }
+        .ct-point {
+            stroke-width: 5px;
+            stroke: @primary;
+        }
+    }
+}
+
+.calendar-widget {
+    #calendar {
+        margin: -25px;
+    }
+    .fc {
+        th.fc-widget-header {
+            background: #e9f2f5;
+            color: @themecolor;
+            font-size: 14px;
+            line-height: 20px;
+            padding: 7px 0px;
+            text-transform: uppercase;
+        }
+    }
+    .fc-toolbar {
+        h2 {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 30px;
+        }
+    }
+    .fc-toolbar.fc-header-toolbar {
+        padding: 15px 200px 10px;
+        margin: 0px;
+        background: -moz-linear-gradient(left, #0284ce 0%, #00bdda 100%);
+        background: -webkit-linear-gradient(left, #0284ce 0%, #00bdda 100%);
+        background: linear-gradient(to right, #0284ce 0%, #00bdda 100%);
+        .fc-center h2 {
+            color: @white;
+            text-transform: capitalize;
+        }
+        .fc-state-default.fc-corner-right {
+            border-top-right-radius: 100%;
+            border-bottom-right-radius: 100%;
+        }
+        .fc-state-default.fc-corner-left {
+            border-top-left-radius: 100%;
+            border-bottom-left-radius: 100%;
+        }
+        .fc-button {
+            padding: 0px;
+            height: 26px;
+            width: 26px;
+            background: transparent;
+            color: @white;
+            text-shadow: none;
+            box-shadow: none;
+            border: 1px solid @white;
+        }
+    }
+    .fc-ltr .fc-basic-view .fc-day-top .fc-day-number {
+        float: left;
+    }
+    .fc-basic-view .fc-week-number,
+    .fc-basic-view .fc-day-number {
+        padding: 15px;
+        font-style: italic;
+    }
+    .fc-unthemed .fc-today {
+        background: @success;
+        color: @white;
+    }
+    .fc-widget-content {
+        border-color: @common;
+    }
+}
+
+
+/* =============== Index3 Widget =============== */
+
+.small-box-widget {
+    position: relative;
+    .icon-box {
+        font-size: 30px;
+        height: 58px;
+        width: 58px;
+        border-radius: 100%;
+        text-align: center;
+        line-height: 62px;
+    }
+    .detail-box {
+        position: absolute;
+        top: 20px;
+        left: 110px;
+        right: 25px;
+        .progress {
+            margin-top: 20px;
+            height: 8px;
+        }
+    }
+    .ct-grids,
+    .ct-label {
+        display: none;
+    }
+    .ct-sales-chart {
+        margin: -15px 0 -35px -48px;
+        .ct-point {
+            stroke-width: 0px;
+        }
+        .ct-line {
+            stroke-width: 2px;
+            stroke: @primary;
+        }
+        .ct-area {
+            fill: @primary;
+        }
+    }
+    .ct-uq-chart {
+        margin: -15px 0 -35px -55px;
+        .ct-bar {
+            stroke-width: 7px;
+            stroke-linecap: round;
+        }
+        .ct-series-a .ct-bar {
+            stroke: @success;
+        }
+        .ct-series-b .ct-bar {
+            stroke: @common;
+        }
+    }
+}
+
+.circle-chart-widget {
+    ul li {
+        padding: 0 19px;
+    }
+    .circle-chart {
+        position: relative;
+        width: 182px;
+        height: 182px;
+        margin: auto;
+        .c1 {
+            position: absolute;
+            left: 0px;
+            top: 0px;
+        }
+        .c2 {
+            position: absolute;
+            left: 14px;
+            top: 14px;
+        }
+        .c3 {
+            position: absolute;
+            left: 29px;
+            top: 29px;
+        }
+        .chart-overlap {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            top: 66px;
+            left: 66px;
+            i {
+                font-size: 50px;
+            }
+        }
+    }
+}
+
+.complete-chart {
+    position: relative;
+    width: 160px;
+    height: 160px;
+    margin: 30px auto;
+    canvas {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    .per-number {
+        display: block;
+        line-height: 160px;
+        text-align: center;
+        width: 160px;
+        margin: 0;
+        font-size: 45px;
+        font-weight: 300;
+        .per-icon {
+            font-size: 30px;
+        }
+    }
+}
+
+.report-widget {
+    text-align: center;
+    .css-bar {
+        margin: 20px 20px 23px;
+        .data-text {
+            margin: 0 auto;
+            position: absolute;
+            left: 0;
+            z-index: 200;
+            right: 0;
+            top: 40px;
+            h1 {
+                font-size: 45px;
+                font-weight: 300;
+                color: @primary;
+                .icon {
+                    font-size: 30px;
+                }
+            }
+            .hr-line {
+                width: 35px;
+                margin: 0 auto 19px;
+            }
+            div {
+                margin-top: -20px;
+            }
+        }
+    }
+}
+
+.temp-widget {
+    position: relative;
+    background: @white;
+    border: 1px solid @common;
+    border-radius: 4px;
+    .left-part {
+        width: 50%;
+        position: absolute;
+        background-size: cover;
+        height: 100%;
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+        .temp-image-overlay {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            background: rgb(2, 132, 206);
+            background: -moz-linear-gradient(top, rgba(2, 132, 206, .6) 0%, rgba(0, 187, 217, .6) 100%);
+            background: -webkit-linear-gradient(top, rgba(2, 132, 206, .6) 0%, rgba(0, 187, 217, .6) 100%);
+            background: linear-gradient(to bottom, rgba(2, 132, 206, .6) 0%, rgba(0, 187, 217, .6) 100%);
+            top: 0;
+            border-top-left-radius: 4px;
+            border-bottom-left-radius: 4px;
+        }
+        .temp-place {
+            position: relative;
+            padding: 25px;
+            .custom-select {
+                background-color: @white;
+                margin-left: 0px;
+                width: 100%;
+                border-radius: 4px;
+                padding: 12px 45px 12px 20px;
+                color: @dark-text;
+            }
+        }
+        .temp-arrow {
+            position: absolute;
+            content: "";
+            width: 0px;
+            height: 0px;
+            right: 0;
+            top: 108px;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 16px solid @white;
+        }
+    }
+    .right-part {
+        margin-left: 53%;
+        padding: 17px 35px 17px 17px;
+        .temp-detail {
+            h1 {
+                font-size: 72px;
+            }
+            h3,
+            h4 {
+                color: @bodytext;
+            }
+            .hr-line {
+                width: 35px;
+                margin: 5px 0;
+            }
+            .temp-days {
+                margin-top: 65px;
+                width: 100%;
+                li {
+                    width: 21%;
+                    border: 1px solid @common;
+                    border-radius: 4px;
+                    text-align: center;
+                    margin: 0 4px;
+                    h2 {
+                        line-height: 20px;
+                        margin-top: 6px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.carousel-widget {
+    background: url("../../plugins/images/flowers.jpg") -140px;
+    background-size: cover;
+    position: relative;
+    text-align: center;
+    padding: 0 50px;
+    border-radius: 4px;
+    height: 450px;
+    .image-overlay {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+        background: rgb(2, 132, 206);
+        background: -moz-linear-gradient(top, rgba(2, 132, 206, .8) 0%, rgba(2, 175, 200, .8) 100%);
+        background: -webkit-linear-gradient(top, rgba(2, 132, 206, .8) 0%, rgba(2, 175, 200, .8) 100%);
+        background: linear-gradient(to bottom, rgba(2, 132, 206, .8) 0%, rgba(2, 175, 200, .8) 100%);
+    }
+    .a-img {
+        padding-top: 30px;
+        img {
+            width: 118px;
+            height: 118px;
+            border: 3px solid @white;
+        }
+        p a {
+            text-transform: uppercase;
+        }
+    }
+    .q-img {
+        padding: 25px 0;
+    }
+    .q-text {
+        padding-bottom: 65px;
+        p {
+            color: @white;
+            font-style: italic;
+        }
+    }
+    .carousel-indicators {
+        bottom: 10px;
+    }
+}
+
+.activity-widget {
+    .steamline {
+        position: relative;
+        border-left: 1px solid @common;
+        margin-left: 20px;
+        margin-top: 21px;
+        .sl-left {
+            float: left;
+            margin-left: -23px;
+            z-index: 1;
+            margin-top: -2px;
+            img {
+                max-width: 40px;
+            }
+            div {
+                width: 45px;
+                height: 45px;
+                text-align: center;
+                line-height: 43px;
+                border-radius: 100%;
+            }
+        }
+    }
+    .steamline .sl-right {
+        padding-left: 40px;
+        div,
+        div a {
+            font-size: 15px;
+        }
+        .sl-btn {
+            float: right;
+            .btn {
+                padding: 6px 25px;
+            }
+        }
+    }
+    .steamline .sl-item {
+        margin-top: 8px;
+        margin-bottom: 45px;
+    }
+}
+
+.upload-widget {
+    .up-speed {
+        display: inline-block;
+        background-color: @light;
+        padding: 7px 15px;
+        border: 1px solid @light;
+        border-radius: 60px;
+    }
+}
+
+.upload-widget2 {
+    .up-file {
+        margin: 0;
+        padding: 0;
+        li {
+            list-style: none;
+            padding: 20px 0px;
+            position: relative;
+            i {
+                font-size: 32px;
+                color: @primary;
+            }
+            .up-file-progress {
+                position: absolute;
+                top: 15px;
+                left: 60px;
+                right: 0;
+                span {
+                    font-size: 15px;
+                    font-weight: 600;
+                }
+                .progress {
+                    margin-top: 7px;
+                }
+            }
+        }
+    }
+    .up-add-file {
+        margin: 18px 0 17px;
+        .btn {
+            padding: 9px 23px;
+        }
+    }
+}
+
+.album-widget {
+    .alb-photos {
+        margin-left: -15px;
+        overflow: hidden;
+        .alb-item {
+            margin-left: 15px;
+            width: ~"calc(33.33% - 15px)";
+            text-align: center;
+            float: left;
+            border: 1px solid @common;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 11px;
+            height: 80px;
+            img {
+                width: 100%;
+                max-width: 100%;
+                height: 100%;
+            }
+        }
+        .uploading {
+            padding: 38px 10px;
+            border: 2px solid @common;
+        }
+        .add-more {
+            font-size: 32px;
+            line-height: 75px;
+            border: 2px solid @common;
+        }
+    }
+    .up-add-photo {
+        margin: 17px 0;
+        .btn {
+            padding: 9px 23px;
+            margin-top: 33px;
+        }
+    }
+}
+
+
+/* =============== index4 Widgets =============== */
+
+.order-chart-widget {
+    ul li {
+        padding: 0 6px;
+    }
+}
+
+.ecom-stat-widget {
+    span {
+        font-size: 30px;
+        i {
+            font-size: 24px;
+        }
+    }
+    p {
+        text-transform: uppercase;
+    }
+    .icoleaf {
+        display: inline-block;
+        width: 50px;
+        height: 50px;
+        padding: 5px 12px;
+        font-size: 28px;
+        float: right;
+        margin-top: 10px;
+        border-top-left-radius: 50%;
+        border-bottom-left-radius: 50%;
+        border-bottom-right-radius: 50%;
+        i {
+            font-size: 28px;
+        }
+    }
+}
+
+
+/* =============== If body has mini-sidebar class =============== */
+
+.mini-sidebar {
+    .top-left-part {
+        width: 60px;
+    }
+    .album-widget li {
+        width: 30.3%;
+    }
+    .temp-widget .temp-days li {
+        margin: 0 6px;
+    }
+}
