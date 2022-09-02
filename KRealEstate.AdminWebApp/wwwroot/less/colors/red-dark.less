@@ -1,0 +1,143 @@
+// out: ../css/colors/, compress: true
+
+/* === File import === */
+
+@import "../variables.less";
+
+/* === variables === */
+
+@topbar1: #d93c17;
+@topbar2: #ff704f;
+@bodycolor: #f4f8f9;
+@headingtext: #333b3f;
+@themecolor: #e74a25;
+@bodytext: #8d9498;
+@sidebar-text: #8d9498;
+@sidebar: #4F5467;
+
+/* === CSS start === */
+
+body {
+    background: @sidebar;
+}
+
+.top-left-part {
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.logo i {
+    color: @white;
+}
+
+.navbar-header {
+    background: @topbar1;
+    background: -moz-linear-gradient(left, @topbar1 1%, @topbar2 100%);
+    background: -webkit-linear-gradient(left, @topbar1 1%, @topbar2 100%);
+    background: linear-gradient(to right, @topbar1 1%, @topbar2 100%);
+}
+
+.right-sidebar .rpanel-title {
+    background: @topbar1;
+    background: -moz-linear-gradient(left, @topbar1 1%, @topbar2 100%);
+    background: -webkit-linear-gradient(left, @topbar1 1%, @topbar2 100%);
+    background: linear-gradient(to right, @topbar1 1%, @topbar2 100%);
+}
+
+.bg-title .breadcrumb .active {
+    color: @themecolor;
+}
+
+
+/* === sidebar css === */
+
+.sidebar-nav,
+.sidebar {
+    background: @sidebar;
+}
+
+.sidebar {
+    border-right: 1px solid #727685;
+}
+
+#side-menu li a {
+    color: @sidebar-text;
+}
+
+.sidebar-nav ul#side-menu li a.active {
+    color: @white;
+    i {
+        color: @themecolor;
+    }
+}
+
+#side-menu ul > li > a {
+    &:hover {
+        color: @themecolor;
+    }
+    &.active {
+        color: @white;
+        font-weight: 500;
+    }
+}
+
+.mini-sidebar .sidebar-nav #side-menu>li:hover>a {
+    background: #444859;
+    color: @white;
+    border-color: #444859;
+    i {
+        color: @themecolor;
+    }
+}
+
+.mini-sidebar .sidebar-nav #side-menu>li>ul {
+    background: #3d4050;
+}
+
+.fix-sidebar .top-left-part {
+    background: @topbar1;
+}
+
+.user-profile .profile-text a {
+    color: @white;
+}
+
+.bg-theme {
+    background-color: @themecolor !important;
+}
+
+.chat-list .odd .chat-text {
+    background: @themecolor;
+}
+
+.btn-custom {
+    background: @themecolor;
+    border: 1px solid @themecolor;
+    color: @white;
+    &:hover {
+        background: @themecolor;
+        opacity: 0.8;
+        color: @white;
+        border: 1px solid @themecolor;
+    }
+}
+
+.customtab li.active a,
+.customtab li.active a:hover,
+.customtab li.active a:focus {
+    border-bottom: 2px solid @themecolor;
+    color: @themecolor;
+}
+
+.tabs-vertical li.active a,
+.tabs-vertical li.active a:hover,
+.tabs-vertical li.active a:focus {
+    background: @themecolor;
+    border-right: 2px solid @themecolor;
+}
+
+.nav-pills>li.active>a,
+.nav-pills>li.active>a:focus,
+.nav-pills>li.active>a:hover {
+    background: @themecolor;
+    color: @white;
+}

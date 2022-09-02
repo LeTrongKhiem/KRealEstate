@@ -1,0 +1,211 @@
+/* =============== Sidebar =============== */
+
+.sidebar {
+    z-index: 10;
+    position: absolute;
+    width: 265px;
+    padding-top: 60px;
+    height: 100%;
+    top: 0;
+    overflow-y: auto;
+    background: @white;
+    border-right: 1px solid @common;
+    .sidebar-nav.navbar-collapse {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .fa-fw {
+        width: 20px;
+        text-align: left!important;
+        display: inline-block;
+        font-size: 18px;
+        font-weight: 400;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+    .label {
+        font-size: 14px;
+        border-radius: 4px;
+        padding: 6px 8px;
+        min-width: 35px;
+        height: 25px;
+        margin-top: -2px;
+    }
+    .btn {
+        font-size: 15px;
+        padding: 0px;
+        width: 204px;
+        height: 50px;
+        line-height: 47px;
+        text-align: center;
+    }
+}
+
+.collapse.in {
+    display: block;
+}
+
+.sidebar-nav {
+    background: @sidebar;
+    ul#side-menu {
+        margin: 0px;
+        padding: 0px;
+        li {
+            list-style: none;
+            a {
+                color: @sidebar-text;
+                padding: 14px 25px 14px 30px;
+                display: block;
+                font-size: 15px;
+                font-weight: 500;
+                white-space: nowrap;
+                &.active {
+                    color: @dark;
+                    background: none;
+                    i {
+                        color: @themecolor;
+                    }
+                }
+            }
+            ul {
+                padding-left: 30px;
+                li a {
+                    padding: 8px 25px 8px 34px;
+                }
+                ul {
+                    padding-left: 20px;
+                }
+            }
+        }
+    }
+}
+
+.user-profile {
+    padding: 15px 0;
+    position: relative;
+    text-align: center;
+    .profile-image {
+        padding-top: 30px;
+        img {
+            position: relative;
+            width: 79px;
+            height: 79px;
+        }
+    }
+    .badge {
+        border: 3px solid @white;
+        top: 30px;
+        position: absolute;
+        padding: 0px;
+        right: 85px;
+        display: inline-block;
+        height: 26px;
+        width: 26px;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 19px;
+        font-size: 14px;
+    }
+    .user-pro-body {
+        div {
+            position: relative;
+        }
+    }
+    .dropdown-menu {
+        top: 50%;
+        left: 80px;
+        a {
+            color: @sidebar-text;
+        }
+        i {
+            margin-right: 5px;
+        }
+    }
+    .profile-text a {
+        font-weight: 600;
+        color: @blue;
+    }
+}
+
+@media(min-width:768px) {
+    .mini-sidebar .sidebar-nav #side-menu li {
+        position: relative;
+    }
+    .mini-sidebar .sidebar-nav #side-menu>li>ul {
+        position: absolute;
+        left: 59px;
+        top: 48px;
+        width: 206px;
+        z-index: 999999;
+        background: @extralight;
+        color: @white;
+        display: none;
+        padding-left: 0px;
+    }
+    .mini-sidebar .sidebar-nav #side-menu>li:hover>ul {
+        height: auto !important;
+    }
+    .mini-sidebar .sidebar-nav #side-menu>li:hover>ul,
+    .mini-sidebar .sidebar-nav #side-menu>li:hover>ul.collapse {
+        display: block;
+    }
+    .mini-sidebar {
+        .user-profile {
+            width: 60px;
+            .profile-image {
+                padding-top: 0px;
+                img {
+                    width: 50px;
+                    height: 50px;
+                }
+            }
+        }
+        .sidebar {
+            width: 60px;
+        }
+        .scroll-sidebar {
+            padding-bottom: 0px;
+            position: absolute;
+        }
+        .hide-menu,
+        .user-profile .profile-text {
+            display: none;
+        }
+        .sidebar-nav {
+            background: transparent;
+        }
+        .sidebar-nav #side-menu>li>a {
+            padding: 14px 20px;
+            width: 60px;
+        }
+        .sidebar-nav #side-menu>li:hover>a {
+            width: 265px;
+            background: @light;
+            color: @dark;
+            border-color: @light;
+            i {
+                color: @themecolor;
+            }
+            .hide-menu {
+                display: inline;
+            }
+        }
+    }
+}
+
+@media(max-width:767px) {
+    .mini-sidebar {
+        .sidebar {
+            position: fixed;
+            transition: all .3s ease;
+        }
+        .sidebar {
+            left: -265px;
+        }
+        &.show-sidebar {
+            .sidebar {
+                left: 0px;
+            }
+        }
+    }
+}
