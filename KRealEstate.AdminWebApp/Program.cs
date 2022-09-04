@@ -1,3 +1,4 @@
+using KRealEstate.APIIntegration.UserClient;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,11 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-IMvcBuilder builders = builder.Services.AddRazorPages();
+//IMvcBuilder builders = builder.Services.AddRazorPages();
 builder.Services.AddHttpClient();
 builder.Services.AddSession(options => options.IdleTimeout = TimeSpan.FromMinutes(30));
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews();//.AddRazorRuntimeCompilation();
 builder.Services.AddMvc();
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>(); //use session header bearer
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(option =>
 {
@@ -20,9 +22,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 #if DEBUG
 if (environment == Environments.Development)
 {
-    builders.AddRazorRuntimeCompilation();
+    builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 }
 #endif
+builder.Services.AddTransient<IUserApiClient, UserApiClient>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
