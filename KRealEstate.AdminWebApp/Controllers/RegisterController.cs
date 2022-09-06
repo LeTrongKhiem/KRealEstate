@@ -15,15 +15,18 @@ namespace KRealEstate.AdminWebApp.Controllers
     {
         private readonly IUserApiClient _userApiClient;
         private readonly IConfiguration _configuration;
-        public RegisterController(IUserApiClient userApiClient, IConfiguration configuration)
+        private readonly IAddressApiClient _addressApiClient;
+        public RegisterController(IUserApiClient userApiClient, IConfiguration configuration, IAddressApiClient addressApiClient)
         {
             _userApiClient = userApiClient;
             _configuration = configuration;
+            _addressApiClient = addressApiClient;
         }
         #region register
         [HttpGet]
         public IActionResult Index()
         {
+
             return View();
         }
         [HttpPost]

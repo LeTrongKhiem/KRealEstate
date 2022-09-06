@@ -26,6 +26,7 @@ if (environment == Environments.Development)
 }
 #endif
 builder.Services.AddTransient<IUserApiClient, UserApiClient>();
+builder.Services.AddTransient<IAddressApiClient, AddressApiClient>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

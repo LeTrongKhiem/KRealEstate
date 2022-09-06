@@ -1,9 +1,9 @@
 ﻿using KRealEstate.Data.DBContext;
 using KRealEstate.ViewModels.Common.API;
-using KRealEstate.ViewModels.System.Address;
+using KRealEstate.ViewModels.System.Addresss;
 using Microsoft.EntityFrameworkCore;
 
-namespace KRealEstate.Application.System.Address
+namespace KRealEstate.Application.System.Addresss
 {
     public class AddressService : IAddressService
     {
@@ -72,7 +72,27 @@ namespace KRealEstate.Application.System.Address
             {
                 return new ResultApiError<List<WardViewModel>>("Not found");
             }
-            return new ResultApiSuccess<List<WardViewModel(wards);
+            return new ResultApiSuccess<List<WardViewModel>>(wards);
+        }
+        #endregion
+        #region Get All Province
+        public async Task<ResultApi<List<ProvinceViewModel>>> GetProvinces()
+        {
+            var provinces = await _context.Provinces.Select(x => new ProvinceViewModel()
+            {
+                Code = x.Code,
+                CodeName = x.CodeName,
+                FullName = x.FullName,
+                Name = x.Name,
+                Name_en = x.NameEn,
+                RegionId = x.AdministrativeRegionId,
+                UnitId = x.AdministrativeUnitId
+            }).ToListAsync();
+            if (provinces == null)
+            {
+                return new ResultApiError<List<ProvinceViewModel>>("Not found");
+            }
+            return new ResultApiSuccess<List<ProvinceViewModel>>(provinces);
         }
         #endregion
     }

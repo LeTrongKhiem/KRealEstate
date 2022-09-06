@@ -10,10 +10,12 @@ namespace KRealEstate.AdminWebApp.Controllers
     {
         private readonly IUserApiClient _userApiClient;
         private readonly IConfiguration _configuration;
-        public UserController(IUserApiClient userApiClient, IConfiguration configuration)
+        private readonly IAddressApiClient _addressApiClient;
+        public UserController(IUserApiClient userApiClient, IConfiguration configuration, IAddressApiClient addressApiClient)
         {
             _userApiClient = userApiClient;
             _configuration = configuration;
+            _addressApiClient = addressApiClient;
         }
         public IActionResult Index()
         {
