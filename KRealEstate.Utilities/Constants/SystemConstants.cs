@@ -3,6 +3,7 @@
     public class SystemConstants
     {
         public const string MAINCONNECTION = "DefaultConnection";
+        public const string Token = "Token";
         public class BaseUrl
         {
             public const string BaseAddress = "BaseAddress";

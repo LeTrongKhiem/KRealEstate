@@ -3,6 +3,7 @@ using KRealEstate.Application.Banners;
 using KRealEstate.Application.Catalog.Categories;
 using KRealEstate.Application.Catalog.Products;
 using KRealEstate.Application.Common;
+using KRealEstate.Application.System.Address;
 using KRealEstate.Application.System.Email;
 using KRealEstate.Application.System.Users;
 using KRealEstate.Data.DBContext;
@@ -129,6 +130,7 @@ builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IProductService, ProductService>();
 builder.Services.AddTransient<IStorageService, FileStorageService>();
 builder.Services.AddTransient<IBannerService, BannerService>();
+builder.Services.AddTransient<IAddressService, AddressService>();
 
 builder.Services.AddMvc(options =>
 {

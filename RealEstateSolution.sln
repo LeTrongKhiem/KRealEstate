@@ -26,7 +26,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KRealEstate.Data", "KRealEs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KRealEstate.BackendApi", "KRealEstate.BackendApi\KRealEstate.BackendApi.csproj", "{DC1C4972-CFA3-45F5-BAC9-9803B4439351}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KRealEstate.AdminWebApp", "KRealEstate.AdminWebApp\KRealEstate.AdminWebApp.csproj", "{99A09123-7CEC-45C3-82A0-155D682CAF1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KRealEstate.AdminWebApp", "KRealEstate.AdminWebApp\KRealEstate.AdminWebApp.csproj", "{99A09123-7CEC-45C3-82A0-155D682CAF1B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KRealEstate.APIIntegration", "KRealEstate.APIIntegration\KRealEstate.APIIntegration.csproj", "{B0083C97-2CC0-473D-9BA4-E566627179F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,6 +64,10 @@ Global
 		{99A09123-7CEC-45C3-82A0-155D682CAF1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99A09123-7CEC-45C3-82A0-155D682CAF1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99A09123-7CEC-45C3-82A0-155D682CAF1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0083C97-2CC0-473D-9BA4-E566627179F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0083C97-2CC0-473D-9BA4-E566627179F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0083C97-2CC0-473D-9BA4-E566627179F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0083C97-2CC0-473D-9BA4-E566627179F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
