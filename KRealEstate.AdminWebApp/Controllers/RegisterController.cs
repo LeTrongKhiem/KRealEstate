@@ -1,8 +1,10 @@
 ﻿using KRealEstate.APIIntegration.UserClient;
+using KRealEstate.ViewModels.Common;
 using KRealEstate.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -24,9 +26,22 @@ namespace KRealEstate.AdminWebApp.Controllers
         }
         #region register
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-
+            var request = new PagingWithKeyword()
+            {
+                PageIndex = 1,
+                PageSize = 5
+            };
+            var users = await _userApiClient.GetListUser(request);
+            var provinces = await _addressApiClient.GetProvinces();
+            ViewBag.province = provinces.ResultObject.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Code,
+                //Selected = categoryId == x.CategoryId && categoryId != null
+            });
+            ViewBag.ProvinceList = new SelectList(provinces.ResultObject, "code", "name");
             return View();
         }
         [HttpPost]
@@ -95,6 +110,8 @@ namespace KRealEstate.AdminWebApp.Controllers
             return principal;
 
         }
+        #endregion
+        #region Address
         #endregion
     }
 }

@@ -1,4 +1,5 @@
 ﻿using KRealEstate.APIIntegration.UserClient;
+using KRealEstate.ViewModels.Common;
 using KRealEstate.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -17,11 +18,29 @@ namespace KRealEstate.AdminWebApp.Controllers
             _configuration = configuration;
             _addressApiClient = addressApiClient;
         }
-        public IActionResult Index()
+        #region Show list user
+        public async Task<IActionResult> Index(string? Keyword, bool? Active, int PageIndex = 1, int PageSize = 10)
         {
-            return View();
+            var request = new PagingWithKeyword()
+            {
+                Keyword = Keyword,
+                Active = Active,
+                PageIndex = PageIndex,
+                PageSize = PageSize
+            };
+            if (!ModelState.IsValid)
+            {
+                return View(ModelState);
+            }
+            ViewBag.Keyword = request.Keyword;
+            var result = await _userApiClient.GetListUser(request);
+            if (TempData["result"] != null)
+            {
+                ViewBag.SuccessMsg = TempData["result"];
+            }
+            return View(result.ResultObject);
         }
-
+        #endregion
         #region Logout Validate Token
         public async Task<IActionResult> Logout()
         {
@@ -57,5 +76,6 @@ namespace KRealEstate.AdminWebApp.Controllers
             return View(request);
         }
         #endregion
+
     }
 }

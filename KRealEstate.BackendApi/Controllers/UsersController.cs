@@ -19,6 +19,7 @@ namespace KRealEstate.BackendApi.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] UserCreateRequest request)
         {
             if (!ModelState.IsValid)
@@ -34,6 +35,7 @@ namespace KRealEstate.BackendApi.Controllers
 
         }
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetById(string id)
         {
             if (!ModelState.IsValid)
@@ -138,6 +140,7 @@ namespace KRealEstate.BackendApi.Controllers
             return Ok(users);
         }
         [HttpPut("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> Edit(string id, [FromBody] UserEditRequest request)
         {
             if (!ModelState.IsValid)

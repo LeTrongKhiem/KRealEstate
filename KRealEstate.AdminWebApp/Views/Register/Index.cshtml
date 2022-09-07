@@ -71,13 +71,13 @@
                             <span asp-validation-for="Phone" class="text-danger"></span>
                         </div>
                     </div>
-                     <div class="form-group ">
+                    <div class="form-group ">
                         <div class="col-xs-12">
                             <input class="form-control" type="text" required="" placeholder="TaxId" asp-for="TaxId">
                             <span asp-validation-for="TaxId" class="text-danger"></span>
                         </div>
                     </div>
-                     <div class="form-group ">
+                    <div class="form-group ">
                         <div class="col-xs-12">
                             <input class="form-control" type="date" required="" placeholder="DOB" asp-for="Dob">
                             <span asp-validation-for="Dob" class="text-danger"></span>
@@ -100,6 +100,17 @@
                                 <option selected></option>
                                 <option value="0">Person</option>
                                 <option value="1">Company</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @* @if (ViewBag.ProvinceList != null)
+                        {
+                        @Html.DropDownListFor(x => x.ProviceCode, ViewBag.ProvinceList as SelectList, "Select Province", new {@class = "form-control"})
+                        }*@
+                        <div class="form-group col-md-6">
+                            <select asp-for="ProviceCode" class="custom-select" style="min-width:200px;" asp-items="ViewBag.province">
+                                <option value="" disabled selected>Select Province</option>
                             </select>
                         </div>
                     </div>
@@ -152,16 +163,16 @@
     <!--Style Switcher -->
     <script src="~/plugins/components/styleswitcher/jQuery.style.switcher.js"></script>
     @section Scripts {
-     function checkPassWord() {
-        let mk1 = document.formdk.password.value;
-        let mk2 = document.formdk.re_password.value;
-        if (mk1 == mk2) {
-            return true;
-        } else {
-            alert('Mật khẩu không khớp');
-        }
+    function checkPassWord() {
+    let mk1 = document.formdk.password.value;
+    let mk2 = document.formdk.re_password.value;
+    if (mk1 == mk2) {
+    return true;
+    } else {
+    alert('Mật khẩu không khớp');
     }
-}
-</body>
+    }
+    }
+    </body>
 
-</html>
+    </html>

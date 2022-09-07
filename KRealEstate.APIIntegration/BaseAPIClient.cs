@@ -104,5 +104,11 @@ namespace KRealEstate.APIIntegration
             return JsonConvert.DeserializeObject<ResultApiError<TResponse>>(await response.Content.ReadAsStringAsync());
         }
         #endregion
+        #region GetListResultApi
+        //public async Task<ResultApi<PageResult<T>>> GetResultApi<T>()
+        //{
+
+        //}
+        #endregion
     }
 }

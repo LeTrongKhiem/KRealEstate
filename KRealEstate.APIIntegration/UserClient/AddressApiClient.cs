@@ -1,6 +1,10 @@
-﻿using KRealEstate.ViewModels.System.Addresss;
+﻿using KRealEstate.Utilities.Constants;
+using KRealEstate.ViewModels.Common.API;
+using KRealEstate.ViewModels.System.Addresss;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
+using System.Net.Http.Headers;
 
 namespace KRealEstate.APIIntegration.UserClient
 {
@@ -15,9 +19,17 @@ namespace KRealEstate.APIIntegration.UserClient
             return await GetlistAsync<DistrictViewModel>($"/api/address/districts/{provinceId}");
         }
 
-        public async Task<List<ProvinceViewModel>> GetProvinces()
+        public async Task<ResultApi<List<ProvinceViewModel>>> GetProvinces()
         {
-            return await GetlistAsync<ProvinceViewModel>($"/api/address");
+            //return await GetlistAsync<ProvinceViewModel>($"/api/address/");
+            var session = _httpContextAccessor.HttpContext.Session.GetString(SystemConstants.Token);
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration[SystemConstants.BaseUrl.BaseAddress]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(SystemConstants.Authentication.RequestHeader, session);
+            var response = await client.GetAsync($"/api/address/");
+            var result = await response.Content.ReadAsStringAsync();
+            var provinces = JsonConvert.DeserializeObject<ResultApiSuccess<List<ProvinceViewModel>>>(result);
+            return provinces;
         }
 
         public async Task<List<ProvinceViewModel>> GetProvincesByUnitRegionId(int unitId, int regionId)
