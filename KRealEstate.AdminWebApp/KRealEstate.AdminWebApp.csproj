@@ -21,9 +21,4 @@
     <ProjectReference Include="..\KRealEstate.APIIntegration\KRealEstate.APIIntegration.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\User\" />
-    <Folder Include="wwwroot\JsFile\" />
-  </ItemGroup>
-
 </Project>

@@ -71,36 +71,50 @@
                             <span asp-validation-for="Phone" class="text-danger"></span>
                         </div>
                     </div>
-                     <div class="form-group ">
+                    <div class="form-group ">
                         <div class="col-xs-12">
                             <input class="form-control" type="text" required="" placeholder="TaxId" asp-for="TaxId">
                             <span asp-validation-for="TaxId" class="text-danger"></span>
                         </div>
                     </div>
-                     <div class="form-group ">
+                    <div class="form-group ">
                         <div class="col-xs-12">
                             <input class="form-control" type="date" required="" placeholder="DOB" asp-for="Dob">
                             <span asp-validation-for="Dob" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3">Gender</label>
-                        <div class="col-md-9">
-                            <select class="form-control" asp-for="Gender">
-                                <option selected>Select Gender</option>
-                                <option value="0">Male</option>
-                                <option value="1">Female</option>
-                            </select>
+                    <div class="row">
+                        <div class="form-group col-md-6">
+                            <div class="col-md-9">
+                                <select class="form-control" asp-for="Gender">
+                                    <option selected>Select Gender</option>
+                                    <option value="0">Male</option>
+                                    <option value="1">Female</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <div class="col-md-9">
+                                <select class="form-control" asp-for="Organization">
+                                    <option selected>Organization</option>
+                                    <option value="0">Person</option>
+                                    <option value="1">Company</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3">Organization</label>
-                        <div class="col-md-9">
-                            <select class="form-control" asp-for="Organization">
-                                <option selected></option>
-                                <option value="0">Person</option>
-                                <option value="1">Company</option>
-                            </select>
+                    <div class="row">
+                        <div class="form-group col-md-4">
+                            @if (ViewBag.ProvinceList != null)
+                            {
+                                @Html.DropDownListFor(x => x.ProviceCode, ViewBag.ProvinceList as SelectList, "Select Province", new {@class = "custom-select"})
+                            }
+                        </div>
+                        <div class="form-group col-md-4">
+                            @Html.DropDownListFor(x => x.DistrictCode, new SelectList(""), "Select Distrct", new {@class = "custom-select"})
+                        </div>
+                        <div class="form-group col-md-4">
+                            @Html.DropDownListFor(x => x.WardCode, new SelectList(""), "Select Ward", new {@class = "custom-select"})
                         </div>
                     </div>
                     <div class="form-group">
@@ -137,6 +151,7 @@
             </div>
         </div>
     </section>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!-- jQuery -->
     <script src="~/plugins/components/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap Core JavaScript -->
@@ -151,17 +166,14 @@
     <script src="~/js/custom.js"></script>
     <!--Style Switcher -->
     <script src="~/plugins/components/styleswitcher/jQuery.style.switcher.js"></script>
-    @section Scripts {
-     function checkPassWord() {
-        let mk1 = document.formdk.password.value;
-        let mk2 = document.formdk.re_password.value;
-        if (mk1 == mk2) {
-            return true;
-        } else {
-            alert('Mật khẩu không khớp');
-        }
-    }
-}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="~/JsFile/address.js"></script>
+    <script>
+        var AddressController = new AddressController();
+        AddressController.initialize();
+    </script>
 </body>
 
 </html>

@@ -95,6 +95,17 @@ namespace KRealEstate.Application.System.Users
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
             var email = await _userManager.FindByEmailAsync(request.Email);
+            var query = from p in _context.Provinces
+                        join d in _context.Districts on p.Code equals d.ProvinceCode
+                        into pd
+                        from d in pd.DefaultIfEmpty()
+                        join w in _context.Wards on d.Code equals w.DistrictCode
+                        into dw
+                        from w in dw.DefaultIfEmpty()
+                        where p.Code.Equals(request.ProviceCode) && d.Code.Equals(request.DistrictCode) && w.Code.Equals(request.WardCode)
+                        select new { p, d, w, pd, dw };
+            var unitId = await query.Select(x => x.p.AdministrativeUnitId).FirstOrDefaultAsync();
+            var regionId = await query.Select(x => x.p.AdministrativeRegionId).FirstOrDefaultAsync();
             if (user != null)
             {
                 return new ResultApiError<bool>("Username đã tồn tại. Vui lòng thử lại!!");
@@ -123,8 +134,9 @@ namespace KRealEstate.Application.System.Users
                     DistrictCode = request.DistrictCode,
                     ProviceCode = request.ProviceCode,
                     WardCode = request.WardCode,
-                    RegionId = request.RegionId,
-                    UnitId = request.UnitId,
+                    //RegionId = request.RegionId,
+                    RegionId = (int)regionId,
+                    UnitId = (int)unitId,
                 };
                 _context.Addresses.Add(address);
             }

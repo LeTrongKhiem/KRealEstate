@@ -3,6 +3,7 @@ using KRealEstate.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -15,16 +16,48 @@ namespace KRealEstate.AdminWebApp.Controllers
     {
         private readonly IUserApiClient _userApiClient;
         private readonly IConfiguration _configuration;
-        public RegisterController(IUserApiClient userApiClient, IConfiguration configuration)
+        private readonly IAddressApiClient _addressApiClient;
+        public RegisterController(IUserApiClient userApiClient, IConfiguration configuration, IAddressApiClient addressApiClient)
         {
             _userApiClient = userApiClient;
             _configuration = configuration;
+            _addressApiClient = addressApiClient;
         }
         #region register
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            var provinces = await _addressApiClient.GetProvinces();
+            ViewBag.province = provinces.ResultObject.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Code,
+                //Selected = categoryId == x.CategoryId && categoryId != null
+            });
+            ViewBag.ProvinceList = new SelectList(provinces.ResultObject, "Code", "Name");
             return View();
+        }
+        public async Task<IActionResult> GetDistrictByProvince(string provinceId)
+        {
+            var district = await _addressApiClient.GetDistrictsByProvinceId(provinceId);
+            ViewBag.District = new SelectList(district.ResultObject, "Code", "Name");
+            ViewBag.district = district.ResultObject.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Code,
+                //Selected = categoryId == x.CategoryId && categoryId != null
+            });
+            return PartialView("DisplayDistrict");
+        }
+        public async Task<IActionResult> GetWardByDistrict(string districtId)
+        {
+            var wards = await _addressApiClient.GetWardsByDistrictId(districtId);
+            ViewBag.Wards = wards.ResultObject.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Code,
+            });
+            return PartialView("DisplayWard");
         }
         [HttpPost]
         public async Task<IActionResult> Index(UserCreateRequest request)
@@ -92,6 +125,8 @@ namespace KRealEstate.AdminWebApp.Controllers
             return principal;
 
         }
+        #endregion
+        #region Address
         #endregion
     }
 }

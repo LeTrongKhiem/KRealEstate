@@ -7,7 +7,7 @@ namespace KRealEstate.APIIntegration.UserClient
     public interface IUserApiClient
     {
         Task<ResultApi<string>> Authenticate(LoginRequest request);
-        Task<List<UserViewModel>> GetListUser(PagingWithKeyword request);
+        Task<ResultApi<PageResult<UserViewModel>>> GetListUser(PagingWithKeyword request);
         Task<ResultApi<bool>> Register(UserCreateRequest request);
         Task<ResultApi<bool>> Edit(Guid id, UserEditRequest request);
         Task<ResultApi<UserViewModel>> GetById(Guid id);

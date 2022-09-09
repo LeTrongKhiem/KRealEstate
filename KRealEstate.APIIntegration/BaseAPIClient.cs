@@ -104,5 +104,18 @@ namespace KRealEstate.APIIntegration
             return JsonConvert.DeserializeObject<ResultApiError<TResponse>>(await response.Content.ReadAsStringAsync());
         }
         #endregion
+        #region GetListResultApi
+        public async Task<ResultApi<List<T>>> GetResultApi<T>(string url)
+        {
+            var session = _httpContextAccessor.HttpContext.Session.GetString(SystemConstants.Token);
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration[SystemConstants.BaseUrl.BaseAddress]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(SystemConstants.Authentication.RequestHeader, session);
+            var response = await client.GetAsync(url);
+            var result = await response.Content.ReadAsStringAsync();
+            var provinces = JsonConvert.DeserializeObject<ResultApiSuccess<List<T>>>(result);
+            return provinces;
+        }
+        #endregion
     }
 }

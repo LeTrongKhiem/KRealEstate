@@ -77,14 +77,32 @@ namespace KRealEstate.APIIntegration.UserClient
             return await GetAsync<ResultApi<UserViewModel>>($"/api/users/get/{username}");
         }
 
-        public async Task<List<UserViewModel>> GetListUser(PagingWithKeyword request)
+        public async Task<ResultApi<PageResult<UserViewModel>>> GetListUser(PagingWithKeyword request)
         {
-            return await GetlistAsync<UserViewModel>($"");
+            //return await GetlistAsync<UserViewModel>($"/api/users/paging?PageIndex={request.PageIndex}&PageSize={request.PageSize}&Keyword={request.Keyword}&Active={request.Active}");
+            var session = _httpContextAccessor.HttpContext.Session.GetString(SystemConstants.Token);
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration[SystemConstants.BaseUrl.BaseAddress]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(SystemConstants.Authentication.RequestHeader, session);
+            var response = await client.GetAsync($"/api/users/paging?PageIndex={request.PageIndex}&PageSize={request.PageSize}&Keyword={request.Keyword}&Active={request.Active}");
+            var result = await response.Content.ReadAsStringAsync();
+            var users = JsonConvert.DeserializeObject<ResultApiSuccess<PageResult<UserViewModel>>>(result);
+            return users;
         }
 
         public async Task<ResultApi<bool>> Register(UserCreateRequest request)
         {
-            return await PostAsync<bool>($"/api/users", request);
+            //return await PostAsync<bool>($"/api/users", request);
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration[SystemConstants.BaseUrl.BaseAddress]);
+            var response = await client.PostAsync($"/api/users", httpContent);
+            var result = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ResultApiSuccess<bool>>(result);
+            return JsonConvert.DeserializeObject<ResultApiError<bool>>(result);
         }
 
         public async Task<ResultApi<bool>> ResetPassword(ResetPasswordRequest request)

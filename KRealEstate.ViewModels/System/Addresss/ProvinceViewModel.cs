@@ -1,4 +1,4 @@
-﻿namespace KRealEstate.ViewModels.System.Address
+﻿namespace KRealEstate.ViewModels.System.Addresss
 {
     public class ProvinceViewModel
     {

@@ -1,0 +1,16 @@
+﻿@using KRealEstate.ViewModels.System.Addresss
+@model DistrictViewModel
+
+
+@*<div class="form-group col-md-6">
+    <select asp-for="Code" class="custom-select" style="min-width:200px;" asp-items="ViewBag.district">
+        <option value="" disabled selected>Select District</option>
+    </select>
+</div>*@
+<option value="" disabled selected>Select District</option>
+@if(ViewBag.district != null) {
+    foreach(var item in ViewBag.district)
+    {
+        <option value="@item.Value">@item.Text</option>
+    }
+}
