@@ -14,9 +14,9 @@ namespace KRealEstate.APIIntegration.UserClient
         {
         }
 
-        public async Task<List<DistrictViewModel>> GetDistrictsByProvinceId(string provinceId)
+        public async Task<ResultApi<List<DistrictViewModel>>> GetDistrictsByProvinceId(string provinceId)
         {
-            return await GetlistAsync<DistrictViewModel>($"/api/address/districts/{provinceId}");
+            return await GetResultApi<DistrictViewModel>($"/api/address/districts/{provinceId}");
         }
 
         public async Task<ResultApi<List<ProvinceViewModel>>> GetProvinces()
@@ -32,14 +32,14 @@ namespace KRealEstate.APIIntegration.UserClient
             return provinces;
         }
 
-        public async Task<List<ProvinceViewModel>> GetProvincesByUnitRegionId(int unitId, int regionId)
+        public async Task<ResultApi<List<ProvinceViewModel>>> GetProvincesByUnitRegionId(int unitId, int regionId)
         {
-            return await GetlistAsync<ProvinceViewModel>($"/api/address/provinces?unitId={unitId}&regionId={regionId}");
+            return await GetResultApi<ProvinceViewModel>($"/api/address/provinces?unitId={unitId}&regionId={regionId}");
         }
 
-        public async Task<List<WardViewModel>> GetWardsByDistrictId(string districtId)
+        public async Task<ResultApi<List<WardViewModel>>> GetWardsByDistrictId(string districtId)
         {
-            return await GetlistAsync<WardViewModel>($"/api/address/wards/{districtId}");
+            return await GetResultApi<WardViewModel>($"/api/address/wards/{districtId}");
         }
     }
 }

@@ -1,0 +1,10 @@
+﻿@using KRealEstate.ViewModels.System.Addresss
+@model WardViewModel
+
+<option value="" disabled selected>Select Ward</option>
+@if(ViewBag.Wards != null) {
+    foreach(var item in ViewBag.Wards)
+    {
+        <option value="@item.Value">@item.Text</option>
+    }
+}

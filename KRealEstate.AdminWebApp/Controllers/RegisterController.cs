@@ -1,5 +1,4 @@
 ﻿using KRealEstate.APIIntegration.UserClient;
-using KRealEstate.ViewModels.Common;
 using KRealEstate.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -28,12 +27,6 @@ namespace KRealEstate.AdminWebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var request = new PagingWithKeyword()
-            {
-                PageIndex = 1,
-                PageSize = 5
-            };
-            var users = await _userApiClient.GetListUser(request);
             var provinces = await _addressApiClient.GetProvinces();
             ViewBag.province = provinces.ResultObject.Select(x => new SelectListItem()
             {
@@ -41,8 +34,30 @@ namespace KRealEstate.AdminWebApp.Controllers
                 Value = x.Code,
                 //Selected = categoryId == x.CategoryId && categoryId != null
             });
-            ViewBag.ProvinceList = new SelectList(provinces.ResultObject, "code", "name");
+            ViewBag.ProvinceList = new SelectList(provinces.ResultObject, "Code", "Name");
             return View();
+        }
+        public async Task<IActionResult> GetDistrictByProvince(string provinceId)
+        {
+            var district = await _addressApiClient.GetDistrictsByProvinceId(provinceId);
+            ViewBag.District = new SelectList(district.ResultObject, "Code", "Name");
+            ViewBag.district = district.ResultObject.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Code,
+                //Selected = categoryId == x.CategoryId && categoryId != null
+            });
+            return PartialView("DisplayDistrict");
+        }
+        public async Task<IActionResult> GetWardByDistrict(string districtId)
+        {
+            var wards = await _addressApiClient.GetWardsByDistrictId(districtId);
+            ViewBag.Wards = wards.ResultObject.Select(x => new SelectListItem()
+            {
+                Text = x.Name,
+                Value = x.Code,
+            });
+            return PartialView("DisplayWard");
         }
         [HttpPost]
         public async Task<IActionResult> Index(UserCreateRequest request)
