@@ -45,7 +45,7 @@ namespace KRealEstate.APIIntegration.UserClient
             {
                 return new ResultApiSuccess<bool>();
             }
-            return new ResultApiError<bool>("Failed");
+            return new ResultApiError<bool>("Failed Try again");
         }
 
         public async Task<ResultApi<bool>> Delete(Guid id)
