@@ -1,3 +1,4 @@
+using KRealEstate.APIIntegration.ProductClient;
 using KRealEstate.APIIntegration.UserClient;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -27,6 +28,7 @@ if (environment == Environments.Development)
 #endif
 builder.Services.AddTransient<IUserApiClient, UserApiClient>();
 builder.Services.AddTransient<IAddressApiClient, AddressApiClient>();
+builder.Services.AddTransient<IProductApiClient, ProductApiClient>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

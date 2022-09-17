@@ -6,9 +6,9 @@ namespace KRealEstate.ViewModels.Catalog.Product
     {
         public string Id { get; set; } = null!;
         public string Name { get; set; } = null!;
-        public string AddressId { get; set; } = null!;
+        //public string AddressId { get; set; } = null!;
         public decimal Price { get; set; }
-        public int Area { get; set; }
+        public int? Area { get; set; }
         public int? Bedroom { get; set; }
         public string? Description { get; set; }
         public int? ToletRoom { get; set; }
@@ -24,13 +24,13 @@ namespace KRealEstate.ViewModels.Catalog.Product
         public string ProviceCode { get; set; }
         public string DistrictCode { get; set; }
         public string WardCode { get; set; }
-        public int RegionId { get; set; }
-        public int UnitId { get; set; }
+        //public int RegionId { get; set; }
+        //public int UnitId { get; set; }
         //contact info
-        public string NameContact { get; set; }
-        public string PhoneContact { get; set; }
-        public string AddressContact { get; set; }
-        public string EmailContact { get; set; }
+        public string? NameContact { get; set; }
+        public string? PhoneContact { get; set; }
+        public string? AddressContact { get; set; }
+        public string? EmailContact { get; set; }
         //images
         public List<IFormFile> ThumbnailImages { get; set; }
         //type post

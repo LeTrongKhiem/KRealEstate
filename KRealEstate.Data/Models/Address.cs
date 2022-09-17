@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace KRealEstate.Data.Models
+﻿namespace KRealEstate.Data.Models
 {
     public partial class Address
     {
         public Address()
         {
-            AspNetUsers = new HashSet<AppUser>();
+            //AspNetUsers = new HashSet<AppUser>();
             Products = new HashSet<Product>();
         }
 
@@ -23,7 +20,7 @@ namespace KRealEstate.Data.Models
         public virtual AdministrativeRegion Region { get; set; } = null!;
         public virtual AdministrativeUnit Unit { get; set; } = null!;
         public virtual Ward WardCodeNavigation { get; set; } = null!;
-        public virtual ICollection<AppUser> AspNetUsers { get; set; }
+        //public virtual ICollection<AppUser> AspNetUsers { get; set; }
         public virtual ICollection<Product> Products { get; set; }
     }
 }

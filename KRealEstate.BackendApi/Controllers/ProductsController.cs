@@ -35,7 +35,7 @@ namespace KRealEstate.BackendApi.Controllers
         }
         [HttpPost]
         [AllowAnonymous]
-        //[Consumes("mutilpart/form-data")]
+        [Consumes("mutilpart/form-data")]
         public async Task<IActionResult> Create([FromForm] PostProductRequest request)
         {
             if (!ModelState.IsValid)

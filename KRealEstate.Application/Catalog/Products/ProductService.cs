@@ -6,6 +6,7 @@ using KRealEstate.ViewModels.Catalog.Images;
 using KRealEstate.ViewModels.Catalog.Product;
 using KRealEstate.ViewModels.Catalog.Products;
 using KRealEstate.ViewModels.Common;
+using KRealEstate.ViewModels.System.Addresss;
 using Microsoft.EntityFrameworkCore;
 
 namespace KRealEstate.Application.Catalog.Products
@@ -377,31 +378,44 @@ namespace KRealEstate.Application.Catalog.Products
                     ProductId = g.ToString(),
                 });
             }
-            Address address = null;
-            Guid gAddress = Guid.NewGuid();
-            if (_context.Addresses.Any(x => x.UnitId == request.UnitId && x.ProviceCode.Equals(request.ProviceCode)
-                                && x.DistrictCode.Equals(request.DistrictCode) && x.WardCode.Equals(request.WardCode)
-                                && x.RegionId == request.RegionId))
+            var query = from p in _context.Provinces
+                        join d in _context.Districts on p.Code equals d.ProvinceCode
+                        into pd
+                        from d in pd.DefaultIfEmpty()
+                        join w in _context.Wards on d.Code equals w.DistrictCode
+                        into dw
+                        from w in dw.DefaultIfEmpty()
+                        where w.Code.Equals(request.WardCode)
+                        select new { p, d, w, pd, dw };
+            //Address address = null;
+            //Guid gAddress = Guid.NewGuid();
+            //if (_context.Addresses.Any(x => x.UnitId == request.UnitId && x.ProviceCode.Equals(request.ProviceCode)
+            //                    && x.DistrictCode.Equals(request.DistrictCode) && x.WardCode.Equals(request.WardCode)
+            //                    && x.RegionId == request.RegionId))
+            //{
+            //    address = await (from add in _context.Addresses
+            //                     where add.UnitId == request.UnitId && add.RegionId == request.RegionId
+            //                     && add.ProviceCode.Equals(request.ProviceCode) && add.DistrictCode.Equals(request.DistrictCode)
+            //                     && add.WardCode.Equals(request.WardCode)
+            //                     select add).FirstOrDefaultAsync();
+            //}
+            //else
+            //{
+            //    address = new Address()
+            //    {
+            //        Id = gAddress.ToString(),
+            //        DistrictCode = request.DistrictCode,
+            //        ProviceCode = request.ProviceCode,
+            //        WardCode = request.WardCode,
+            //        RegionId = request.RegionId,
+            //        UnitId = request.UnitId,
+            //    };
+            //    _context.Addresses.Add(address);
+            //}
+            var wardCode = await query.Select(x => new WardViewModel()
             {
-                address = await (from add in _context.Addresses
-                                 where add.UnitId == request.UnitId && add.RegionId == request.RegionId
-                                 && add.ProviceCode.Equals(request.ProviceCode) && add.DistrictCode.Equals(request.DistrictCode)
-                                 && add.WardCode.Equals(request.WardCode)
-                                 select add).FirstOrDefaultAsync();
-            }
-            else
-            {
-                address = new Address()
-                {
-                    Id = gAddress.ToString(),
-                    DistrictCode = request.DistrictCode,
-                    ProviceCode = request.ProviceCode,
-                    WardCode = request.WardCode,
-                    RegionId = request.RegionId,
-                    UnitId = request.UnitId,
-                };
-                _context.Addresses.Add(address);
-            }
+                Code = x.w.Code
+            }).FirstOrDefaultAsync();
             var productCreate = new Product()
             {
                 Id = g.ToString(),
@@ -417,7 +431,7 @@ namespace KRealEstate.Application.Catalog.Products
                 Bedroom = request.Bedroom,
                 Project = request.Project,
                 Slug = _utilities.SEOUrl(request.Name),
-                AddressId = address.Id,
+                AddressId = wardCode.Code,
                 IsShowWeb = request.IsShowWeb,
                 ProductMapCategories = listCate,
                 ViewCount = 0

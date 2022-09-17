@@ -64,7 +64,7 @@ namespace KRealEstate.AdminWebApp.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View();
+                return View(ModelState);
             }
             var result = await _userApiClient.Register(request);
 
@@ -85,7 +85,7 @@ namespace KRealEstate.AdminWebApp.Controllers
             var authProperties = new AuthenticationProperties()
             {
                 ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30),
-                IsPersistent = true
+                IsPersistent = true,
             };
 
             HttpContext.Session.SetString("Token", resultLogin.ResultObject);
@@ -102,8 +102,7 @@ namespace KRealEstate.AdminWebApp.Controllers
             var result = await _userApiClient.ConfirmEmail(userId, code);
             if (result.IsSuccess)
             {
-                return RedirectToAction("Login", "Account");
-
+                return RedirectToAction("Index", "Login");
             }
             return RedirectToAction("Error");
         }

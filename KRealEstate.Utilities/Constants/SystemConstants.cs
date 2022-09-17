@@ -7,7 +7,7 @@
         public class BaseUrl
         {
             public const string BaseAddress = "BaseAddress";
-            public const string urlApp = "https://localhost:6003";
+            public const string urlApp = "https://localhost:6002";
         }
         public class Authentication
         {
