@@ -54,6 +54,12 @@ namespace KRealEstate.APIIntegration
             throw new Exception(result);
         }
         #endregion
+        //#region Result Get List
+        //public async Task<ResultApi<PageResult<T>>> GetListAsyncApi<T>(string uri)
+        //{
+
+        //}
+        //#endregion
         #region Delete
         public async Task<ResultApi<bool>> DeleteAsync(string url)
         {

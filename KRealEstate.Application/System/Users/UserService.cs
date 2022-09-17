@@ -3,6 +3,7 @@ using KRealEstate.Data.Models;
 using KRealEstate.Utilities.Constants;
 using KRealEstate.ViewModels.Common;
 using KRealEstate.ViewModels.Common.API;
+using KRealEstate.ViewModels.System.Addresss;
 using KRealEstate.ViewModels.System.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -79,7 +80,7 @@ namespace KRealEstate.Application.System.Users
             {
                 return new ResultApiError<bool>("Confirm Failed");
             }
-            var user = await _userManager.FindByNameAsync(userId);
+            var user = await _userManager.FindByIdAsync(userId);
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
             if (result.Succeeded)
@@ -102,10 +103,8 @@ namespace KRealEstate.Application.System.Users
                         join w in _context.Wards on d.Code equals w.DistrictCode
                         into dw
                         from w in dw.DefaultIfEmpty()
-                        where p.Code.Equals(request.ProviceCode) && d.Code.Equals(request.DistrictCode) && w.Code.Equals(request.WardCode)
+                        where w.Code.Equals(request.WardCode)
                         select new { p, d, w, pd, dw };
-            var unitId = await query.Select(x => x.p.AdministrativeUnitId).FirstOrDefaultAsync();
-            var regionId = await query.Select(x => x.p.AdministrativeRegionId).FirstOrDefaultAsync();
             if (user != null)
             {
                 return new ResultApiError<bool>("Username đã tồn tại. Vui lòng thử lại!!");
@@ -114,32 +113,36 @@ namespace KRealEstate.Application.System.Users
             {
                 return new ResultApiError<bool>("Email đã tồn tại. Vui lòng thử Email khác.");
             }
-            var gAddress = Guid.NewGuid();
-            Address address = null;
-            if (_context.Addresses.Any(x => x.UnitId == request.UnitId && x.ProviceCode.Equals(request.ProviceCode)
-                                && x.DistrictCode.Equals(request.DistrictCode) && x.WardCode.Equals(request.WardCode)
-                                && x.RegionId == request.RegionId))
+            //var gAddress = Guid.NewGuid();
+            //Address address = null;
+            //if (_context.Addresses.Any(x => x.UnitId == request.UnitId && x.ProviceCode.Equals(request.ProviceCode)
+            //                    && x.DistrictCode.Equals(request.DistrictCode) && x.WardCode.Equals(request.WardCode)
+            //                    && x.RegionId == request.RegionId))
+            //{
+            //    address = await (from add in _context.Addresses
+            //                     where add.UnitId == request.UnitId && add.RegionId == request.RegionId
+            //                     && add.ProviceCode.Equals(request.ProviceCode) && add.DistrictCode.Equals(request.DistrictCode)
+            //                     && add.WardCode.Equals(request.WardCode)
+            //                     select add).FirstOrDefaultAsync();
+            //}
+            //else
+            //{
+            //    address = new Address()
+            //    {
+            //        Id = gAddress.ToString(),
+            //        DistrictCode = request.DistrictCode,
+            //        ProviceCode = request.ProviceCode,
+            //        WardCode = request.WardCode,
+            //        //RegionId = request.RegionId,
+            //        RegionId = (int)regionId,
+            //        UnitId = (int)unitId,
+            //    };
+            //    _context.Addresses.Add(address);
+            //}
+            var wardCode = await query.Select(x => new WardViewModel()
             {
-                address = await (from add in _context.Addresses
-                                 where add.UnitId == request.UnitId && add.RegionId == request.RegionId
-                                 && add.ProviceCode.Equals(request.ProviceCode) && add.DistrictCode.Equals(request.DistrictCode)
-                                 && add.WardCode.Equals(request.WardCode)
-                                 select add).FirstOrDefaultAsync();
-            }
-            else
-            {
-                address = new Address()
-                {
-                    Id = gAddress.ToString(),
-                    DistrictCode = request.DistrictCode,
-                    ProviceCode = request.ProviceCode,
-                    WardCode = request.WardCode,
-                    //RegionId = request.RegionId,
-                    RegionId = (int)regionId,
-                    UnitId = (int)unitId,
-                };
-                _context.Addresses.Add(address);
-            }
+                Code = x.w.Code
+            }).FirstOrDefaultAsync();
             Guid gId = Guid.NewGuid();
             user = new AppUser()
             {
@@ -152,7 +155,7 @@ namespace KRealEstate.Application.System.Users
                 TaxId = request.TaxId,
                 PhoneNumber = request.Phone,
                 Organization = request.Organization,
-                AddressId = address.Id,
+                AddressId = wardCode.Code,
                 Email = request.Email,
             };
             var result = await _userManager.CreateAsync(user, request.Password);
@@ -161,7 +164,7 @@ namespace KRealEstate.Application.System.Users
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                 code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                 string urlWebapp = SystemConstants.BaseUrl.urlApp;
-                var content = urlWebapp + $"/Account/ConfirmEmail?userId={user.Id}&code={code}";
+                var content = urlWebapp + $"/Register/ConfirmEmail?userId={user.Id}&code={code}";
                 await _emailSender.SendEmailAsync(request.Email, "Email xác nhận đăng ký tài khoản", $"Để xác nhận tài khoản vui lòng " +
                     $"click vào <a href='{content}'>Bấm vào đây</a>");
                 if (_userManager.Options.SignIn.RequireConfirmedEmail)

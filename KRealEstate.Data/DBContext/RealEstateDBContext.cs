@@ -52,50 +52,50 @@ namespace KRealEstate.Data.DBContext
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Address>(entity =>
-            {
-                entity.ToTable("Address");
+            //modelBuilder.Entity<Address>(entity =>
+            //{
+            //    entity.ToTable("Address");
 
-                entity.Property(e => e.Id)
-                    .HasMaxLength(255)
-                    .IsUnicode(false);
+            //    entity.Property(e => e.Id)
+            //        .HasMaxLength(255)
+            //        .IsUnicode(false);
 
-                entity.Property(e => e.DistrictCode).HasMaxLength(20);
+            //    entity.Property(e => e.DistrictCode).HasMaxLength(20);
 
-                entity.Property(e => e.ProviceCode).HasMaxLength(20);
+            //    entity.Property(e => e.ProviceCode).HasMaxLength(20);
 
-                entity.Property(e => e.WardCode).HasMaxLength(20);
+            //    entity.Property(e => e.WardCode).HasMaxLength(20);
 
-                entity.HasOne(d => d.DistrictCodeNavigation)
-                    .WithMany(p => p.Addresses)
-                    .HasForeignKey(d => d.DistrictCode)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_dis_add");
+            //    entity.HasOne(d => d.DistrictCodeNavigation)
+            //        .WithMany(p => p.Addresses)
+            //        .HasForeignKey(d => d.DistrictCode)
+            //        .OnDelete(DeleteBehavior.ClientSetNull)
+            //        .HasConstraintName("fk_dis_add");
 
-                entity.HasOne(d => d.ProviceCodeNavigation)
-                    .WithMany(p => p.Addresses)
-                    .HasForeignKey(d => d.ProviceCode)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_provice_add");
+            //    entity.HasOne(d => d.ProviceCodeNavigation)
+            //        .WithMany(p => p.Addresses)
+            //        .HasForeignKey(d => d.ProviceCode)
+            //        .OnDelete(DeleteBehavior.ClientSetNull)
+            //        .HasConstraintName("fk_provice_add");
 
-                entity.HasOne(d => d.Region)
-                    .WithMany(p => p.Addresses)
-                    .HasForeignKey(d => d.RegionId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_region_add");
+            //    entity.HasOne(d => d.Region)
+            //        .WithMany(p => p.Addresses)
+            //        .HasForeignKey(d => d.RegionId)
+            //        .OnDelete(DeleteBehavior.ClientSetNull)
+            //        .HasConstraintName("fk_region_add");
 
-                entity.HasOne(d => d.Unit)
-                    .WithMany(p => p.Addresses)
-                    .HasForeignKey(d => d.UnitId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_unit_add");
+            //    entity.HasOne(d => d.Unit)
+            //        .WithMany(p => p.Addresses)
+            //        .HasForeignKey(d => d.UnitId)
+            //        .OnDelete(DeleteBehavior.ClientSetNull)
+            //        .HasConstraintName("fk_unit_add");
 
-                entity.HasOne(d => d.WardCodeNavigation)
-                    .WithMany(p => p.Addresses)
-                    .HasForeignKey(d => d.WardCode)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("fk_ward_add");
-            });
+            //    entity.HasOne(d => d.WardCodeNavigation)
+            //        .WithMany(p => p.Addresses)
+            //        .HasForeignKey(d => d.WardCode)
+            //        .OnDelete(DeleteBehavior.ClientSetNull)
+            //        .HasConstraintName("fk_ward_add");
+            //});
 
             modelBuilder.Entity<AdministrativeRegion>(entity =>
             {

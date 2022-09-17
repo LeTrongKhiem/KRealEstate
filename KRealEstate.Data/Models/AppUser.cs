@@ -14,7 +14,7 @@ namespace KRealEstate.Data.Models
         public string TaxId { get; set; } = null!;
         public string AddressId { get; set; } = null!;
 
-        public virtual Address Address { get; set; } = null!;
+        public virtual Ward Address { get; set; } = null!;
 
     }
 }

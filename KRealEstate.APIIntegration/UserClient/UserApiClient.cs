@@ -34,7 +34,18 @@ namespace KRealEstate.APIIntegration.UserClient
 
         public async Task<ResultApi<bool>> ConfirmEmail(string id, string code)
         {
-            return await GetAsync<ResultApi<bool>>($"/api/users/confirm?userId={id}&code={code}");
+            //return await GetAsync<ResultApi<bool>>($"/api/users/confirm?userId={id}&code={code}");
+            var session = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", session);
+            var response = await client.GetAsync($"/api/users/confirm?userId={id}&code={code}");
+            var result = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+            {
+                return new ResultApiSuccess<bool>();
+            }
+            return new ResultApiError<bool>("Failed");
         }
 
         public async Task<ResultApi<bool>> Delete(Guid id)

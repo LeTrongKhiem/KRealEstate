@@ -105,10 +105,10 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-md-4">
-                            @if (ViewBag.ProvinceList != null)
-                            {
-                                @Html.DropDownListFor(x => x.ProviceCode, ViewBag.ProvinceList as SelectList, "Select Province", new {@class = "custom-select"})
-                            }
+                            @*@if (ViewBag.ProvinceList != null)
+                            {*@
+                            @Html.DropDownListFor(x => x.ProviceCode, ViewBag.ProvinceList as SelectList, "Select Province", new {@class = "custom-select"})
+                            @*}*@
                         </div>
                         <div class="form-group col-md-4">
                             @Html.DropDownListFor(x => x.DistrictCode, new SelectList(""), "Select Distrct", new {@class = "custom-select"})
@@ -137,6 +137,7 @@
                             </div>
                         </div>
                     </div>
+                    <div class="text-danger warning" asp-validation-summary="All"></div>
                     <div class="form-group text-center m-t-20">
                         <div class="col-xs-12">
                             <button class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Sign Up</button>

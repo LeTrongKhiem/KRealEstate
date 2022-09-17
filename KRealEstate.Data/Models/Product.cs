@@ -27,7 +27,7 @@
         public string? Furniture { get; set; }
         public string? Slug { get; set; }
 
-        public virtual Address Address { get; set; } = null!;
+        public virtual Ward Address { get; set; } = null!;
         public virtual Direction? Direction { get; set; }
         public virtual ICollection<Contact> Contacts { get; set; }
         public virtual ICollection<PostDetail> PostDetails { get; set; }
